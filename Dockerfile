@@ -8,6 +8,8 @@ RUN npm ci
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 3037
 
-CMD ["npm", "start"]
+RUN npm run build
+
+CMD ["node", ".output/server/index.mjs"]

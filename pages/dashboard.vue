@@ -1,33 +1,7 @@
 <script setup lang="ts">
-    interface Task {
-        title: string
-    }
+const taskStore = useTaskStore()
 
-    interface Response {
-        tasks?: Array<Task>,
-        nextCursor?: string | null,
-        error?: string
-    }
-
-    const isLoading = ref(false)
-    const tasks = ref([] as Array<Task>)
-    const error = ref('')
-
-    const loadTasks = async () => {
-        try {
-            isLoading.value = true
-            const { data } = await useFetch<Response>('/api/tasks')
-            tasks.value = data.value?.tasks || []
-
-            if (data.value?.error) {
-                error.value = data.value?.error
-            }
-        } catch (err) {
-            error.value = err as string
-        } finally {
-            isLoading.value = false   
-        }
-    }
+await callOnce(taskStore.fetch)
 </script>
 
 <template>
@@ -37,20 +11,20 @@
         <h2>Tasks</h2>
 
         <p>
-            <button @click="loadTasks">Load tasks</button>
+            <button @click="taskStore.fetch">Load tasks</button>
         </p>
 
-        <b v-if="isLoading">Loading your tasks...</b>
-        <div v-else-if="!isLoading && tasks && !error">
-            <template v-if="!tasks.length">No tasks are available</template>
+        <b v-if="taskStore.isLoading">Loading your tasks...</b>
+        <div v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError">
+            <template v-if="!taskStore.tasks.length">No tasks are available</template>
             <template v-else>
                 <code>
-                    {{tasks}}
+                    {{taskStore.tasks}}
                 </code>
             </template>
         </div>
-        <div v-else-if="!isLoading && error">
-            {{ error }}
+        <div v-else-if="!taskStore.isLoading && taskStore.fetchError">
+            {{ taskStore.fetchError }}
         </div>
     </main>
 </template>

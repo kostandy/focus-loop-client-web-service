@@ -15,4 +15,5 @@ useHead({
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
+  <UModals />
 </template>

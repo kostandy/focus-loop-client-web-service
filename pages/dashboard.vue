@@ -1,16 +1,20 @@
 <script setup lang="ts">
+import NewTaskDialog from '~/components/NewTaskDialog.vue';
+
 const taskStore = useTaskStore()
 
+// TODO: Uncomment when API is ready
 // await callOnce(taskStore.fetch)
 
-const dialog = useDialog()
+const newTaskModal = useModal()
 
-const openDialog = () => dialog.value.isVisible = true
-const closeDialog = () => {
-    console.log('Closing event received');
-    
-    dialog.value.isVisible = false
-}
+const closeNewTaskModal = () => newTaskModal.close()
+const openNewTaskModal = () => newTaskModal.open(NewTaskDialog, {
+    isVisible: newTaskModal.isOpen,
+    isLoading: taskStore.isLoading,
+    onSuccess: submitForm,
+    onClose: closeNewTaskModal,
+})
 
 const audio: Ref<HTMLAudioElement | null> = ref(null)
 
@@ -18,45 +22,43 @@ if (import.meta.client) {
     audio.value = new Audio('/sounds/task-creation-succesful.mp3');
 }
 
-const onFormSubmit = async (payload: Task) => {
-    console.log('Form is submitting with the following payload:', payload)
+const submitForm = async (newTask: Task) => {
+    console.log('Form is submitting with the following payload:', newTask)
 
     try {
-        dialog.value.isLoading = true
+        taskStore.isLoading = true
 
-        console.log('Adding a task to the store', payload);
+        console.log('Adding a task to the store', newTask);
 
-        taskStore.add(payload)
+        taskStore.add(newTask)
 
-        // Play a sound
+        // Dophamine release ;)
         if (audio.value) {
             audio.value?.play();
         }
     } catch (error) {
         console.error(error)
     } finally {
-        dialog.value.isLoading = false
-        closeDialog()
+        taskStore.isLoading = false
+        closeNewTaskModal()
     }
 }
 </script>
 
 <template>
-    <main>
+    <UContainer as="main">
         <h1>Focus Loop</h1>
 
         <h2>Tasks</h2>
 
         <div style="margin-bottom: 8px;">
-            <button @click="taskStore.fetch">Load tasks</button>
+            <UButton label="Load tasks" @click="taskStore.fetch" />
             &nbsp;
-            <button :disabled="taskStore.isLoading" @click="openDialog">Create a new one</button>
+            <UButton label="Create a new task" :disabled="taskStore.isLoading" @click="openNewTaskModal" />
         </div>
 
-        <NewTaskDialog :is-visible="dialog.isVisible" :is-loading="dialog.isLoading" @submit="onFormSubmit"
-            @close="closeDialog" />
-
         <b v-if="taskStore.isLoading">Loading your tasks...</b>
+
         <div v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError">
             <template v-if="!taskStore.tasks.length">No tasks are available</template>
             <template v-else>
@@ -65,8 +67,9 @@ const onFormSubmit = async (payload: Task) => {
                 </div>
             </template>
         </div>
+
         <div v-else-if="!taskStore.isLoading && taskStore.fetchError">
             {{ taskStore.fetchError }}
         </div>
-    </main>
+    </UContainer>
 </template>

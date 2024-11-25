@@ -3,8 +3,7 @@ import NewTaskDialog from '~/components/NewTaskDialog.vue';
 
 const taskStore = useTaskStore()
 
-// TODO: Uncomment when API is ready
-// await callOnce(taskStore.fetch)
+await callOnce(taskStore.fetch)
 
 const newTaskModal = useModal()
 
@@ -23,14 +22,12 @@ if (import.meta.client) {
 }
 
 const submitForm = async (newTask: Task) => {
-    console.log('Form is submitting with the following payload:', newTask)
-
     try {
         taskStore.isLoading = true
 
         console.log('Adding a task to the store', newTask);
 
-        taskStore.add(newTask)
+        taskStore.add(newTask);
 
         // Dophamine release ;)
         if (audio.value) {
@@ -47,13 +44,10 @@ const submitForm = async (newTask: Task) => {
 
 <template>
     <UContainer as="main">
-        <h1>Focus Loop</h1>
+        <h1 class="my-4 text-4xl font-bold text-center">Focus Loop</h1>
 
-        <h2>Tasks</h2>
-
-        <div style="margin-bottom: 8px;">
-            <UButton label="Load tasks" @click="taskStore.fetch" />
-            &nbsp;
+        <div class="mb-4">
+            <UButton label="Load tasks" class="mr-4" @click="taskStore.fetch" />
             <UButton label="Create a new task" :disabled="taskStore.isLoading" @click="openNewTaskModal" />
         </div>
 
@@ -62,9 +56,7 @@ const submitForm = async (newTask: Task) => {
         <div v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError">
             <template v-if="!taskStore.tasks.length">No tasks are available</template>
             <template v-else>
-                <div v-for="task in taskStore.tasks" :id="task.id">
-                    <b>{{ task.title }}</b>
-                </div>
+                <TaskCard v-for="task in taskStore.tasks" v-bind="task" class="mb-8" />
             </template>
         </div>
 

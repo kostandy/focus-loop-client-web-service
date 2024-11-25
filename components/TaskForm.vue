@@ -12,13 +12,11 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>
 
-interface State extends Schema {
-    id: ReturnType<typeof generateId>;
-}
-
-const state = reactive<State>({
+const state = reactive<Task>({
     id: generateId(),
     title: '',
+    createdAt: new Date(),
+    status: TaskStatuses.notStarted
 })
 
 const onSubmit = async (event: FormSubmitEvent<Schema>) => {

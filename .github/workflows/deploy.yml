@@ -26,7 +26,7 @@ jobs:
 
       # Build the application
       - name: Build the application
-        run: npm run build
+        run: npm run generate
 
       # Deploy using SCP
       - name: Deploy to server
@@ -39,4 +39,18 @@ jobs:
           mkdir -p ~/.ssh
           echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          scp -r ./dist $SERVER_USER@$SERVER_HOST:$SERVER_PATH
+          scp -r ./.output/public $SERVER_USER@$SERVER_HOST:$SERVER_PATH\# Execute commands on the remote server
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
+            # Find the Docker container ID (assumes first container is the target)
+            CONTAINER_ID=$(docker ps --format '{{.ID}}' | head -n 1)
+
+            if [ -n "$CONTAINER_ID" ]; then
+              echo "Docker container ID: $CONTAINER_ID"
+              # Copy files into the container
+              docker cp $SERVER_PATH/public/* $CONTAINER_ID:/usr/share/nginx/html
+              echo "Files copied to Docker container."
+            else
+              echo "No running Docker container found."
+              exit 1
+            fi
+          EOF

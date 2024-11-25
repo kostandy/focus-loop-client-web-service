@@ -3,11 +3,11 @@ name: Deploy Application
 on:
   push:
     branches:
-      - main  # Change to your deployment branch if different
+      - main # Change to your deployment branch if different
 
 jobs:
   build-and-deploy:
-    runs-on: alpine-latest
+    runs-on: self-hosted
 
     steps:
       # Checkout your code
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20' # Use the Node.js version you need
+          node-version: "20" # Use the Node.js version you need
 
       # Install dependencies
       - name: Install dependencies

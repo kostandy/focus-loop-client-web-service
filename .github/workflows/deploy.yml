@@ -1,0 +1,42 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - main  # Change to your deployment branch if different
+
+jobs:
+  build-and-deploy:
+    runs-on: alpine-latest
+
+    steps:
+      # Checkout your code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # Use the Node.js version you need
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Build the application
+      - name: Build the application
+        run: npm run build
+
+      # Deploy using SCP
+      - name: Deploy to server
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_PATH: ${{ secrets.SERVER_PATH }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          scp -r ./dist $SERVER_USER@$SERVER_HOST:$SERVER_PATH

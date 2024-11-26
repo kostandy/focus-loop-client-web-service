@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import NewTaskDialog from '~/components/NewTaskDialog.vue';
+import { AUDIO_PATHS } from '~/constants/audioConstants';
+import { TONVIEWER_WALLET_LINK } from '~/constants/linkConstants';
 
 const taskStore = useTaskStore()
 
@@ -15,13 +17,9 @@ const openNewTaskModal = () => newTaskModal.open(NewTaskDialog, {
     onClose: closeNewTaskModal,
 })
 
-const audio: Ref<HTMLAudioElement | null> = ref(null)
-
-if (import.meta.client) {
-    audio.value = new Audio('/sounds/task-creation-succesful.mp3');
-}
-
-const tonviewerWalletLink = ref("https://tonviewer.com/focus-loop.ton")
+const taskCreationSound: Ref<HTMLAudioElement | null> = ref(loadAudio(AUDIO_PATHS.TASK_CREATION_SUCCESS));
+const taskCompletitionSound: Ref<HTMLAudioElement | null> = ref(loadAudio(AUDIO_PATHS.TASK_COMPLETION_SUCCESS));
+const tonviewerWalletLink = ref(TONVIEWER_WALLET_LINK);
 
 const submitForm = async (newTask: Task) => {
     try {
@@ -30,9 +28,7 @@ const submitForm = async (newTask: Task) => {
         taskStore.add(newTask);
 
         // Dophamine release ;)
-        if (audio.value) {
-            audio.value?.play();
-        }
+        taskCreationSound?.value?.play();
     } catch (error) {
         console.error(error)
     } finally {
@@ -41,11 +37,14 @@ const submitForm = async (newTask: Task) => {
     }
 }
 
-const setTaskStatus = (id: Task['id'], status: TaskStatuses) => {
-    console.log('setTaskStatus', id, status);
+const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
     const task = taskStore.getTaskById(id);
     if (task) {
-        taskStore.update(id, { ...task, status });
+        taskStore.update(id, { ...task, status: newStatus });
+        
+        if (newStatus === TaskStatuses.completed) {
+            taskCompletitionSound?.value?.play();
+        }
     }
 }
 </script>

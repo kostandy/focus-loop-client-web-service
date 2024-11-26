@@ -1,0 +1,1 @@
+export const TONVIEWER_WALLET_LINK = "https://tonviewer.com/focus-loop.ton";

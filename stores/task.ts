@@ -31,6 +31,9 @@ export const useTaskStore = defineStore('taskStore', {
         isLoading: false,
         fetchError: ''
     }),
+    getters: {
+        getTaskById: ({ tasks }: taskState) => (id: Task['id']): Task | undefined => tasks.find(task => task.id === id)
+    },
     actions: {
         async initializeDB() {
             await initializeDatabase();
@@ -45,7 +48,7 @@ export const useTaskStore = defineStore('taskStore', {
                 // const data = await $fetch<Response>('/api/tasks')
 
                 // this.tasks = data?.tasks || []
-                    
+
                 // if (data?.error) {
                 //     this.fetchError = data?.error
                 // }
@@ -71,7 +74,7 @@ export const useTaskStore = defineStore('taskStore', {
                 })
 
                 this.tasks = data?.tasks || []
-                    
+
                 if (data?.error) {
                     this.fetchError = data?.error
                 }
@@ -84,9 +87,20 @@ export const useTaskStore = defineStore('taskStore', {
         add(newTask: Task) { // For local tasks adding
             this.tasks.push(newTask);
 
-            const { saveTasks } = useIndexedDB('TaskDB', 'tasks')
+            const { saveTasks } = useIndexedDB(DB_NAME, STORE_NAME)
 
             saveTasks(toRaw(this.tasks))
+        },
+        update(id: Task['id'], newTask: Task) {
+            const index = this.tasks.findIndex(task => task.id === id);
+            
+            if (index !== -1) {
+                this.tasks[index] = newTask;
+
+                const { saveTasks } = useIndexedDB(DB_NAME, STORE_NAME)
+
+                saveTasks(toRaw(this.tasks))
+            }
         }
     }
 })

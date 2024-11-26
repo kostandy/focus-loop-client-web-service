@@ -56,9 +56,7 @@ export const useTaskStore = defineStore('taskStore', {
                 // Important note: This is a workaround unless remote API is implemented
                 const data = await loadTasks();
 
-                console.log('data', data);
-
-                this.tasks = data;
+                this.tasks = data.sort((a, b) => new Date(b.createdAt) > new Date(a.createdAt) ? 1 : -1);
             } catch (error) {
                 this.fetchError = error as string
             } finally {

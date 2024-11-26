@@ -83,7 +83,7 @@ export const useTaskStore = defineStore('taskStore', {
             }
         },
         add(newTask: Task) { // For local tasks adding
-            this.tasks.push(newTask);
+            this.tasks = [newTask, ...this.tasks];
 
             const { saveTasks } = useIndexedDB(DB_NAME, STORE_NAME)
 

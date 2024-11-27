@@ -59,21 +59,26 @@ const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
             description="🎯 Achieve your goals with focus, fun, and lasting progress - no matter the challenges"
             class="tracking-wide text-center md:text-start mb-4" color="primary" variant="subtle" />
 
-        <div class="my-6">
-            <UButton label="Add a Task" class="md:w-auto font-bold rounded-full" size="xl" trailing-icon="i-heroicons-plus-solid" block :disabled="taskStore.isLoading" @click="openNewTaskModal" />
+        <div class="sticky top-4 my-6 z-10">
+            <UButton label="Add a Task" class="md:w-auto font-bold shadow-lg rounded-full" size="xl" trailing-icon="i-heroicons-plus-solid" block :disabled="taskStore.isLoading" @click="openNewTaskModal" />
         </div>
 
         <b v-if="taskStore.isLoading">Loading your tasks...</b>
 
-        <div v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError">
+        <div v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError" class="relative">
             <template v-if="!taskStore.tasks.length">No tasks are available</template>
             <template v-else>
-                <TaskCard
-                    v-for="task in taskStore.tasks"
-                    v-bind="task"
-                    class="mb-8"
-                    @change-status="payload => setTaskStatus(task.id, payload)"
-                />
+                <div class="overflow-hidden">
+                    <div class="relative">
+                        <TaskCard
+                            v-for="task in taskStore.tasks"
+                            v-bind="task"
+                            class="mb-8"
+                            @change-status="payload => setTaskStatus(task.id, payload)"
+                        />
+                        <div v-if="taskStore.tasks.length > 4" class="fixed bottom-0 left-0 right-0 bg-gradient-to-t dark:from-slate-900 h-10"></div>
+                    </div>
+                </div>
             </template>
         </div>
 

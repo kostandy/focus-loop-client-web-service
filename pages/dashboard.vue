@@ -52,15 +52,12 @@ const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
 <template>
     <UContainer as="main">
         <small>dev-alpha</small>
-        <h1 class="my-4 text-4xl font-bold text-center">Focus Loop</h1>
+        <h1 class="my-4 text-2xl font-bold text-center">Focus Loop</h1>
 
-        <UAlert :actions="[{ label: 'Donate', to: tonviewerWalletLink, target: '_blank', icon: 'i-heroicons-heart', external: true, block: true }]"
-            title="👋🏻 Hey, stranger! Such a fascinating Rabbit&nbsp;Hole, isn't? 💫"
-            description="🎯 Achieve your goals with focus, fun, and lasting progress - no matter the challenges"
-            class="tracking-wide text-center md:text-start mb-4" color="primary" variant="subtle" />
+        <UButton label="Donate 1 TON" :to="tonviewerWalletLink" target="_blank" leading-icon="i-heroicons-heart" variant="outline" external block />
 
         <div class="sticky top-4 my-6 z-10">
-            <UButton label="Add a Task" class="md:w-auto font-bold shadow-lg rounded-full" size="xl" trailing-icon="i-heroicons-plus-solid" block :disabled="taskStore.isLoading" @click="openNewTaskModal" />
+            <UButton label="Add a Task" class="md:w-auto font-bold shadow-lg rounded-full" trailing-icon="i-heroicons-plus-solid" block :disabled="taskStore.isLoading" @click="openNewTaskModal" />
         </div>
 
         <b v-if="taskStore.isLoading">Loading your tasks...</b>

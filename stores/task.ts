@@ -35,14 +35,7 @@ export const useTaskStore = defineStore('taskStore', {
         getTaskById: ({ tasks }: taskState) => (id: Task['id']): Task | undefined => tasks.find(task => task.id === id)
     },
     actions: {
-        async initializeDB() {
-            await initializeDatabase();
-        },
         async fetch() {
-            await this.initializeDB();
-
-            const { loadTasks } = useIndexedDB(DB_NAME, STORE_NAME)
-
             try {
                 this.isLoading = true
                 // const data = await $fetch<Response>('/api/tasks')
@@ -53,10 +46,10 @@ export const useTaskStore = defineStore('taskStore', {
                 //     this.fetchError = data?.error
                 // }
 
-                // Important note: This is a workaround unless remote API is implemented
-                const data = await loadTasks();
-
-                this.tasks = data.sort((a, b) => new Date(b.createdAt) > new Date(a.createdAt) ? 1 : -1);
+                // Load tasks from LocalStorage
+                const storedTasks = localStorage.getItem(STORE_NAME);
+                const parsedTasks: Task[] = storedTasks ? JSON.parse(storedTasks) : []
+                this.tasks =  parsedTasks.sort((a, b) => new Date(b.createdAt) > new Date(a.createdAt) ? 1 : -1)
             } catch (error) {
                 this.fetchError = error as string
             } finally {
@@ -84,20 +77,16 @@ export const useTaskStore = defineStore('taskStore', {
         },
         add(newTask: Task) { // For local tasks adding
             this.tasks = [newTask, ...this.tasks];
-
-            const { saveTasks } = useIndexedDB(DB_NAME, STORE_NAME)
-
-            saveTasks(toRaw(this.tasks))
+            // Save tasks to LocalStorage
+            localStorage.setItem(STORE_NAME, JSON.stringify(this.tasks));
         },
         update(id: Task['id'], newTask: Task) {
             const index = this.tasks.findIndex(task => task.id === id);
             
             if (index !== -1) {
                 this.tasks[index] = newTask;
-
-                const { saveTasks } = useIndexedDB(DB_NAME, STORE_NAME)
-
-                saveTasks(toRaw(this.tasks))
+                // Save updated tasks to LocalStorage
+                localStorage.setItem(STORE_NAME, JSON.stringify(this.tasks));
             }
         }
     }

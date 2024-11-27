@@ -2,6 +2,7 @@
 import NewTaskDialog from '~/components/NewTaskDialog.vue';
 import { AUDIO_PATHS } from '~/constants/audioConstants';
 import { TONVIEWER_WALLET_LINK } from '~/constants/linkConstants';
+import confetti from 'canvas-confetti';
 
 const taskStore = useTaskStore()
 
@@ -37,6 +38,14 @@ const submitForm = async (newTask: Task) => {
     }
 }
 
+const launchConfetti = () => {
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { x: 0.5, y: 0.5 },
+  });
+};
+
 const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
     const task = taskStore.getTaskById(id);
     if (task) {
@@ -44,6 +53,7 @@ const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
         
         if (newStatus === TaskStatuses.completed) {
             taskCompletitionSound?.value?.play();
+            launchConfetti()
         }
     }
 }

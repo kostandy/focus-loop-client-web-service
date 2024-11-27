@@ -24,9 +24,8 @@ defineShortcuts({
 </script>
 
 <template>
-    <!-- TODO: Here's a bug when ESC is pressed -->
     <UModal>
-        <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+        <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }" class="-mx-4 px-2">
             <template #header>
                 <div class="flex items-center justify-between">
                     <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
@@ -38,18 +37,6 @@ defineShortcuts({
             </template>
 
             <TaskForm @submit="submitForm" />
-
-            <template #footer>
-                <UButton :disabled="isLoading" :loading="isLoading" @click="submitForm">
-                    <template v-if="isLoading">
-                        Creating your task...
-                    </template>
-
-                    <template v-else>
-                        Create a task
-                    </template>
-                </UButton>
-            </template>
         </UCard>
     </UModal>
 </template>

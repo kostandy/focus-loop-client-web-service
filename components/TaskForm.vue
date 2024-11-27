@@ -19,22 +19,31 @@ const state = reactive<Task>({
     status: TaskStatuses.notStarted
 })
 
-const onSubmit = async (event: FormSubmitEvent<Schema>) => {
-    emit('submit', event.data)
+const isValid = computed(() => {
+    return validate(state).length === 0 // Check if there are no validation errors
+})
+
+const submitState = async () => {    
+    if (isValid) {
+        emit('submit', state)
+    }
 }
 
 const validate = (state: any): FormError[] => {
     const errors = []
-    if (!state.title) errors.push({ path: 'title', message: 'Required' })
+    if (!state.title) errors.push({ path: 'title', message: 'Title wasn\'t provided' })
     return errors
 }
 
+defineExpose({ state })
 </script>
 
 <template>
-    <UForm :validate="validate" :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+    <UForm :validate="validate" :schema="schema" :state="state" class="space-y-4" @submit.prevent="submitState">
         <UFormGroup label="Title" name="title">
-            <UInput v-model="state.title" placeholder="Enter the title for a task" autofocus />
+            <UInput v-model.trim="state.title" placeholder="Enter the title for a task" hint="Use simple task titles" autofocus />
         </UFormGroup>
+
+        <UButton label="Add" type="submit" block />
     </UForm>
 </template>

@@ -23,7 +23,7 @@ const isValid = computed(() => {
     return validate(state).length === 0 // Check if there are no validation errors
 })
 
-const submitState = async () => {    
+const submitState = async () => {
     if (isValid) {
         emit('submit', state)
     }

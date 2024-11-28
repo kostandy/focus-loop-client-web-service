@@ -61,7 +61,6 @@ const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
 
 <template>
     <UContainer as="main">
-        <small>dev-alpha</small>
         <h1 class="my-4 text-2xl font-bold text-center">Focus Loop</h1>
 
         <UButton label="Donate 1 TON" :to="tonviewerWalletLink" target="_blank" leading-icon="i-heroicons-heart" variant="outline" external block />

@@ -61,9 +61,11 @@ const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
 
 <template>
     <UContainer as="main">
-        <h1 class="my-4 text-2xl font-bold text-center">Focus Loop</h1>
+        <div class="flex items-end justify-between my-4">
+            <UButton :to="tonviewerWalletLink" label="Donate 1 TON" class="flex w-auto" target="_blank" leading-icon="i-heroicons-heart" size="md" variant="link" external block />
 
-        <UButton label="Donate 1 TON" :to="tonviewerWalletLink" target="_blank" leading-icon="i-heroicons-heart" variant="outline" external block />
+            <UButton icon="i-heroicons-cog-6-tooth" variant="ghost" disabled />
+        </div>
 
         <div class="sticky top-4 my-6 z-10">
             <UButton label="Add a Task" class="md:w-auto font-bold shadow-lg rounded-full" trailing-icon="i-heroicons-plus-solid" block :disabled="taskStore.isLoading" @click="openNewTaskModal" />

@@ -10,8 +10,6 @@ const schema = z.object({
     }),
 })
 
-type Schema = z.output<typeof schema>
-
 const state = reactive<Task>({
     id: generateId(),
     title: '',

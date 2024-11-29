@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// TODO: Replace Dialog component to the Slideover component
+
 export interface Props {
     isVisible: Ref<boolean>,
     isLoading: boolean

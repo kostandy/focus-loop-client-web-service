@@ -49,7 +49,7 @@ export const useTaskStore = defineStore('taskStore', {
                 // Load tasks from LocalStorage
                 const storedTasks = localStorage.getItem(STORE_NAME);
                 const parsedTasks: Task[] = storedTasks ? JSON.parse(storedTasks) : []
-                this.tasks =  parsedTasks.sort((a, b) => new Date(b.createdAt) > new Date(a.createdAt) ? 1 : -1)
+                this.tasks = parsedTasks.sort((a, b) => new Date(b.createdAt) > new Date(a.createdAt) ? 1 : -1)
             } catch (error) {
                 this.fetchError = error as string
             } finally {
@@ -82,12 +82,18 @@ export const useTaskStore = defineStore('taskStore', {
         },
         update(id: Task['id'], newTask: Task) {
             const index = this.tasks.findIndex(task => task.id === id);
-            
+
             if (index !== -1) {
                 this.tasks[index] = newTask;
                 // Save updated tasks to LocalStorage
                 localStorage.setItem(STORE_NAME, JSON.stringify(this.tasks));
             }
+        },
+        remove(id: Task['id']) {
+            // Filter out the task to be removed and update tasks and localStorage in one operation
+            this.tasks = this.tasks.filter(task => task.id !== id);
+            // Save updated tasks to LocalStorage
+            localStorage.setItem(STORE_NAME, JSON.stringify(this.tasks));
         }
     }
 })

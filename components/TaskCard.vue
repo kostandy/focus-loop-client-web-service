@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { TaskStatuses, type Task } from '@/stores/task.js';
+import ConfirmModal from './ConfirmModal.vue';
 
 const props = defineProps<Task>()
-const emit = defineEmits<{ (e: 'changeStatus', status: TaskStatuses): void }>()
+const emit = defineEmits<{
+    (e: 'changeStatus', status: TaskStatuses): void,
+    (e: 'remove', id: Task['id']): void
+}>()
 
 const isNotStarted = computed(() => props.status === TaskStatuses.notStarted);
 const isInProgress = computed(() => props.status === TaskStatuses.inProgress);
@@ -26,22 +30,80 @@ const toggleStatus = () => {
     emit('changeStatus', newStatus);
 }
 
+const translateX = ref(100); // Default slideover position (fully hidden)
+const startX = ref(0);
+const opacity = ref(0);
+const actionsHasShown = ref(false);
+const moveSwipeTriggered = ref(false);
+
+const startSwipe = (e: TouchEvent) => {
+    startX.value = e.touches[0].clientX;
+};
+
+const calculateSwipeValues = (deltaX: number) => {
+    const newTranslateX = Math.max(0, Math.min(100, 100 - Math.abs(deltaX)));
+    actionsHasShown.value = newTranslateX === 0;
+    opacity.value = actionsHasShown.value ? 1 : 0;
+    return newTranslateX;
+};
+
+const moveSwipe = throttle(async (e: TouchEvent) => {
+    moveSwipeTriggered.value = true;
+
+    const deltaX = e.touches[0].clientX - startX.value;
+    translateX.value = calculateSwipeValues(deltaX);
+
+    await nextTick();
+}, 100);
+
+const endSwipe = (e: TouchEvent) => {
+    if (startX.value && !moveSwipeTriggered.value) {
+        const deltaX = e.changedTouches[0].clientX - startX.value;
+        translateX.value = calculateSwipeValues(deltaX);
+    }
+
+    // Fully reveal or hide actions based on swipe threshold
+    translateX.value <= 80 ? translateX.value = 0 : translateX.value = 100;
+
+    // Reset moveSwipeTriggered state
+    moveSwipeTriggered.value = false;
+};
+
+const remove = () => {
+    emit('remove', props.id);
+};
+
+const modal = useModal();
+
+const displayConfirmationDialog = () => {
+    modal.open(ConfirmModal, {
+        title: props.title,
+        onSuccess() {
+            modal.close();
+
+            translateX.value = 100; // Hide the actions menu
+
+            remove();
+        }
+    })
+}
 </script>
 
 <template>
-    <UCard class="rounded-full pr-4">
-        <div class="flex items-center">
-            <UButton
-                :icon="toggleActionIcon"
-                :color="toggleActionIconColor"
-                :disabled="isCompleted"
-                size="lg"
-                class="mr-4 rounded-full"
-                variant="outline"
-                @click="toggleStatus"
-            />
+    <UCard class="relative overflow-hidden rounded-full pr-4" @touchstart.prevent="startSwipe"
+        @touchmove.prevent="moveSwipe" @touchend.prevent="endSwipe">
+        <div class="relative flex items-center">
+            <div class="absolute right-0 flex items-center justify-end h-full w-64 bg-gradient-to-l dark:from-slate-900 transition z-30"
+                :style="{ transform: `translateX(${translateX}px)`, opacity: opacity }">
 
-            <div class="relative w-full overflow-hidden">
+                <UButton icon="i-heroicons-trash" size="lg" class="rounded-full z-10" variant="outline" color="rose"
+                    @touchstart.stop @touchmove.stop @touchend.stop @click="displayConfirmationDialog" />
+            </div>
+
+            <UButton :icon="toggleActionIcon" :color="toggleActionIconColor" :disabled="isCompleted" size="lg"
+                class="mr-4 rounded-full z-20" variant="outline" @click="toggleStatus" />
+
+            <div class="relative w-full overflow-hidden z-10">
                 <p class="truncate font-bold">{{ title }}</p>
 
                 <UProgress class="my-1" :value="isInProgress ? undefined : 0" animation="swing" />

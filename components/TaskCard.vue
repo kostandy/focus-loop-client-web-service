@@ -90,8 +90,8 @@ const displayConfirmationDialog = () => {
 </script>
 
 <template>
-    <UCard class="relative overflow-hidden rounded-full pr-4" @touchstart.prevent="startSwipe"
-        @touchmove.prevent="moveSwipe" @touchend.prevent="endSwipe">
+    <UCard class="relative overflow-hidden rounded-full pr-4 z-10" @touchstart="startSwipe"
+        @touchmove="moveSwipe" @touchend="endSwipe">
         <div class="relative flex items-center">
             <div class="absolute right-0 flex items-center justify-end h-full w-64 bg-gradient-to-l dark:from-slate-900 transition z-30"
                 :style="{ transform: `translateX(${translateX}px)`, opacity: opacity }">

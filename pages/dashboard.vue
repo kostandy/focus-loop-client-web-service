@@ -67,13 +67,13 @@ const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
             <UButton icon="i-heroicons-cog-6-tooth" variant="ghost" disabled />
         </div>
 
-        <div class="sticky top-4 my-6 mx-2 z-10">
+        <div class="sticky top-4 my-6 mx-2 z-20">
             <UButton label="Add a Task" class="md:w-auto font-bold shadow-lg rounded-full" trailing-icon="i-heroicons-plus-solid" block :disabled="taskStore.isLoading" @click="openNewTaskModal" />
         </div>
 
         <b v-if="taskStore.isLoading">Loading your tasks...</b>
 
-        <div v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError" class="relative mx-1">
+        <div v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError" class="relative mx-1 z-10">
             <template v-if="!taskStore.tasks.length">No tasks are available</template>
             <template v-else>
                 <TaskCard

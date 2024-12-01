@@ -1,22 +1,28 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  colorMode: {
+    preference: 'dark'
+  },
 
-  ssr: false,
+  compatibilityDate: '2024-12-01',
 
   devtools: { enabled: true },
 
-  typescript: {
-    typeCheck: true
+  modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxt/ui'],
+
+  router: {
+    options: {
+      hashMode: true
+    }
   },
+
+  ssr: false,
 
   telemetry: {
     enabled: false
   },
 
-  colorMode: {
-    preference: 'dark'
-  },
-
-  modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxt/ui']
+  typescript: {
+    typeCheck: true
+  }
 })

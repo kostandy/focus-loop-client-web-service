@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NewTaskDialog from '~/components/NewTaskDialog.vue';
 import { AUDIO_PATHS } from '~/constants/audioConstants';
-import { TONVIEWER_WALLET_LINK } from '~/constants/linkConstants';
+import { DONATION_LINK } from '~/constants/linkConstants';
 import confetti from 'canvas-confetti';
 
 const taskStore = useTaskStore()
@@ -20,7 +20,7 @@ const openNewTaskModal = () => newTaskModal.open(NewTaskDialog, {
 
 const taskCreationSound: Ref<HTMLAudioElement | null> = ref(loadAudio(AUDIO_PATHS.TASK_CREATION_SUCCESS));
 const taskCompletitionSound: Ref<HTMLAudioElement | null> = ref(loadAudio(AUDIO_PATHS.TASK_COMPLETION_SUCCESS));
-const tonviewerWalletLink = ref(TONVIEWER_WALLET_LINK);
+const donationLink = ref(DONATION_LINK);
 
 const submitForm = async (newTask: Task) => {
     try {
@@ -62,7 +62,7 @@ const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
 <template>
     <UContainer as="main">
         <div class="flex items-end justify-between my-4">
-            <UButton :to="`${tonviewerWalletLink}/transfer?amount=1&text=Donate`" label="Donate 1 TON" class="flex w-auto" target="_blank"
+            <UButton :to="donationLink" label="Donate 1 TON" class="flex w-auto" target="_blank"
                 leading-icon="i-heroicons-heart" size="md" variant="link" external block />
 
             <UButton icon="i-heroicons-cog-6-tooth" variant="ghost" disabled />

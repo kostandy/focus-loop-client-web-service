@@ -62,7 +62,7 @@ const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
 <template>
     <UContainer as="main">
         <div class="flex items-end justify-between my-4">
-            <UButton :to="tonviewerWalletLink" label="Donate 1 TON" class="flex w-auto" target="_blank"
+            <UButton :to="`${tonviewerWalletLink}/transfer?amount=1&text=Donate`" label="Donate 1 TON" class="flex w-auto" target="_blank"
                 leading-icon="i-heroicons-heart" size="md" variant="link" external block />
 
             <UButton icon="i-heroicons-cog-6-tooth" variant="ghost" disabled />

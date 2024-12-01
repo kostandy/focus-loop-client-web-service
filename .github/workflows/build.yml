@@ -12,13 +12,22 @@ jobs:
     steps:
       # Checkout your code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Set up Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "22" # Use the Node.js version you need
+
+      # Cache node modules
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       # Install dependencies
       - name: Install dependencies
@@ -28,16 +37,6 @@ jobs:
       - name: Build the application
         id: build
         run: npm run generate
-
-      - name: Debug
-        run: ls -la
-
-      - name: Check output directory
-        run: |
-          if [ ! -d ./.output ] || [ -z "$(ls -A ./.output)" ]; then
-            echo "Output directory is empty or does not exist."
-            exit 1
-          fi
 
       # Upload the build artifact
       - name: Upload artifact

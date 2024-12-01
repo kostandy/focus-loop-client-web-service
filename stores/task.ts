@@ -1,5 +1,3 @@
-import { DB_NAME, STORE_NAME } from "~/constants/dbConstants";
-
 export enum TaskStatuses {
     notStarted = "not_started",
     inProgress = "in_progress",
@@ -24,6 +22,8 @@ export interface taskState {
     isLoading: boolean,
     fetchError: string
 }
+
+const STORE_NAME = 'tasks';
 
 export const useTaskStore = defineStore('taskStore', {
     state: (): taskState => ({

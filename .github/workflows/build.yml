@@ -28,14 +28,16 @@ jobs:
 
       # Build the application
       - name: Build the application
+        id: build
         run: npm run generate
 
       # Upload the build artifact
       - name: Upload artifact
+        id: upload
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
-          path: ./output
+          path: .output/public
 
     outputs:
-      artifact_url: ${{ steps.build.outputs.artifact_url }}
+      artifact_url: ${{ steps.upload.outputs.artifact_url }}

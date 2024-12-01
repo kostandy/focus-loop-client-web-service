@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
-          path: .output
+          path: ./.output
 
     outputs:
       artifact_url: ${{ steps.upload.outputs.artifact_url }}

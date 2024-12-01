@@ -1,4 +1,4 @@
-name: Deploy Application
+name: Build Application
 
 on:
   push:
@@ -6,8 +6,6 @@ on:
       - main
 
 jobs:
-  # TODO: Add tests step
-
   build:
     runs-on: ubuntu-latest
 
@@ -37,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
-          path: .output/public
+          path: .output
 
     outputs:
       artifact_url: ${{ steps.upload.outputs.artifact_url }}

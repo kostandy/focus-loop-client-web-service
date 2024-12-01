@@ -58,7 +58,9 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST "rm -rf $SERVER_PATH/public && mkdir -p $SERVER_PATH/public"
+          chmod 700 ~/.ssh/id_rsa
+          ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
+          ssh $SERVER_USER@$SERVER_HOST "rm -rf $SERVER_PATH/public && mkdir -p $SERVER_PATH/public"
+          echo "DEBUG: ${{ needs.build.outputs.build_path }}"
           scp -r ${{ needs.build.outputs.build_path }} $SERVER_USER@$SERVER_HOST:$SERVER_PATH
-          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST sh deploy.sh
+          ssh $SERVER_USER@$SERVER_HOST sh deploy.sh

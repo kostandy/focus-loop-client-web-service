@@ -29,6 +29,16 @@ jobs:
         id: build
         run: npm run generate
 
+      - name: Debug
+        run: ls -la
+
+      - name: Check output directory
+        run: |
+          if [ ! -d ./.output ] || [ -z "$(ls -A ./.output)" ]; then
+            echo "Output directory is empty or does not exist."
+            exit 1
+          fi
+
       # Upload the build artifact
       - name: Upload artifact
         id: upload

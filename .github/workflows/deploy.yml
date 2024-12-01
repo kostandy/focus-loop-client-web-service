@@ -41,7 +41,7 @@ jobs:
         id: build
         run: |
           npm run generate
-          echo "build_path=$(pwd)/dist" >> $GITHUB_OUTPUT
+          echo "build_path=$(readlink -f dist)" >> $GITHUB_OUTPUT
 
   deploy:
     runs-on: ubuntu-latest

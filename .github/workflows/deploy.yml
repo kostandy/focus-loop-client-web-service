@@ -9,9 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    outputs:
-      build_path: ${{ steps.build.outputs.build_path }}
-
     steps:
       # Checkout your code
       - name: Checkout code
@@ -41,24 +38,27 @@ jobs:
         id: build
         run: |
           npm run generate
-          ls -la
-          echo "build_path=$(pwd)/dist" >> $GITHUB_OUTPUT
+          echo "dist" > $GITHUB_ENV
+
+      # Upload build artifacts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: dist
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-      - name: Debug build path
-        run: |
-          echo "Build path: ${{ needs.build.outputs.build_path }}"
-          ls -la
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
 
       - name: List build output
-        run: ls -la ${{ needs.build.outputs.build_path }}
-
-      - name: Debug SCP command
-        run: echo "scp -r '${{ needs.build.outputs.build_path }}' $SERVER_USER@$SERVER_HOST:$SERVER_PATH"
+        run: ls -la
 
       # Deploy using SCP
       - name: Deploy to server
@@ -73,5 +73,5 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
           ssh $SERVER_USER@$SERVER_HOST "rm -rf $SERVER_PATH/public && mkdir -p $SERVER_PATH/public"
-          scp -r "${{ needs.build.outputs.build_path }}" $SERVER_USER@$SERVER_HOST:$SERVER_PATH
+          scp -r "dist" $SERVER_USER@$SERVER_HOST:$SERVER_PATH
           ssh $SERVER_USER@$SERVER_HOST sh deploy.sh

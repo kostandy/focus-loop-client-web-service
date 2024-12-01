@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       # Checkout your code
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20" # Use the Node.js version you need
+          node-version: "22" # Use the Node.js version you need
 
       # Install dependencies
       - name: Install dependencies

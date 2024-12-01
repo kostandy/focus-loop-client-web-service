@@ -48,6 +48,10 @@ jobs:
     needs: build
 
     steps:
+      - name: Debug build path
+        run: |
+          echo "Build path: ${{ needs.build.outputs.build_path }}"
+
       # Deploy using SCP
       - name: Deploy to server
         env:

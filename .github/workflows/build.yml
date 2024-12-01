@@ -1,0 +1,41 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # TODO: Add tests step
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout your code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22" # Use the Node.js version you need
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Build the application
+      - name: Build the application
+        run: npm run generate
+
+      # Upload the build artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: ./output
+
+    outputs:
+      artifact_url: ${{ steps.build.outputs.artifact_url }}

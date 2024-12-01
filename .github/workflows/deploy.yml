@@ -1,32 +1,18 @@
 name: Deploy Application
 
 on:
-  push:
-    branches:
-      - main # Change to your deployment branch if different
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+    needs: []
 
     steps:
-      # Checkout your code
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
         with:
-          node-version: "22" # Use the Node.js version you need
-
-      # Install dependencies
-      - name: Install dependencies
-        run: npm ci
-
-      # Build the application
-      - name: Build the application
-        run: npm run generate
+          name: build-artifact
 
       # Deploy using SCP
       - name: Deploy to server

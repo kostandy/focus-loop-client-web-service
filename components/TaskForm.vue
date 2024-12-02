@@ -17,9 +17,7 @@ const state = reactive<Task>({
     status: TaskStatuses.notStarted
 })
 
-const isValid = computed(() => {
-    return validate(state).length === 0 // Check if there are no validation errors
-})
+const isValid = computed(() => validate(state).length === 0) // Check if there are no validation errors
 
 const submitState = async () => {
     if (isValid) {

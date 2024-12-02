@@ -65,7 +65,7 @@ jobs:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           TELEGRAM_BOT_ID: ${{ secrets.TELEGRAM_BOT_ID }}
           TELEGRAM_BOT_CHAT_ID: ${{ secrets.TELEGRAM_BOT_CHAT_ID }}
-          TELEGRAM_BOT_SUCCESS_MESSAGE: "Deployment is over"
+          TELEGRAM_BOT_SUCCESS_MESSAGE: Deployment is over
         run: |
           mkdir -p ~/.ssh
           echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
@@ -74,4 +74,5 @@ jobs:
           ssh $SERVER_USER@$SERVER_HOST "rm -rf $SERVER_PATH/public && mkdir -p $SERVER_PATH/public"
           scp -r * $SERVER_USER@$SERVER_HOST:$SERVER_PATH/public
           ssh $SERVER_USER@$SERVER_HOST sh deploy.sh
-          curl https://api.telegram.org/bot$TELEGRAM_BOT_ID/sendMessage?chat_id=$TELEGRAM_BOT_CHAT_ID&text=$TELEGRAM_BOT_SUCCESS_MESSAGE 
+          response=$(curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_ID/sendMessage" -d "chat_id=$TELEGRAM_BOT_CHAT_ID&text=$TELEGRAM_BOT_SUCCESS_MESSAGE")
+          echo $response | grep -q '"ok":true' || { echo "Failed to send message"; exit 1; }

@@ -38,8 +38,8 @@ defineExpose({ state })
 
 <template>
     <UForm :validate="validate" :schema="schema" :state="state" class="space-y-4" @submit.prevent="submitState">
-        <UFormGroup label="Title" name="title">
-            <UInput v-model.trim="state.title" placeholder="Enter the title for a task" hint="Use simple task titles" autofocus />
+        <UFormGroup label="Title" name="title" description="Use simple task titles" eager-validation>
+            <UInput v-model.trim="state.title" @input="state.title = $event" placeholder="Enter the title for a task" autofocus />
         </UFormGroup>
 
         <UButton label="Add" type="submit" block />

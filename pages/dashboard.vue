@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NewTaskDialog from '~/components/NewTaskDialog.vue';
+import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 import { AUDIO_PATHS } from '~/constants/audioConstants';
 import { DONATION_LINK } from '~/constants/linkConstants';
 import confetti from 'canvas-confetti';
@@ -8,14 +8,14 @@ const taskStore = useTaskStore()
 
 await callOnce(taskStore.fetch)
 
-const newTaskModal = useModal()
+const newTaskSlideover = useSlideover()
 
-const closeNewTaskModal = () => newTaskModal.close()
-const openNewTaskModal = () => newTaskModal.open(NewTaskDialog, {
-    isVisible: newTaskModal.isOpen,
+const closeNewTaskSlideover = () => newTaskSlideover.close()
+const openNewTaskSlideover = () => newTaskSlideover.open(NewTaskSlideover, {
+    isVisible: newTaskSlideover.isOpen,
     isLoading: taskStore.isLoading,
     onSuccess: submitForm,
-    onClose: closeNewTaskModal,
+    onClose: closeNewTaskSlideover,
 })
 
 const taskCreationSound: Ref<HTMLAudioElement | null> = ref(loadAudio(AUDIO_PATHS.TASK_CREATION_SUCCESS));
@@ -34,7 +34,7 @@ const submitForm = async (newTask: Task) => {
         console.error(error)
     } finally {
         taskStore.isLoading = false
-        closeNewTaskModal()
+        closeNewTaskSlideover()
     }
 }
 
@@ -71,7 +71,7 @@ const setTaskStatus = (id: Task['id'], newStatus: TaskStatuses) => {
         <div class="sticky top-4 my-6 mx-2 z-20">
             <UButton label="Add a Task" class="md:w-auto font-bold shadow-lg bg-slate-900 border rounded-full"
                 trailing-icon="i-heroicons-plus-solid" variant="ghost" color="white" block :disabled="taskStore.isLoading"
-                @click="openNewTaskModal" />
+                @click="openNewTaskSlideover" />
         </div>
 
         <b v-if="taskStore.isLoading">Loading your tasks...</b>

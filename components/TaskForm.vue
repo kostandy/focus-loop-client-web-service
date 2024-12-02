@@ -35,11 +35,11 @@ defineExpose({ state })
 </script>
 
 <template>
-    <UForm :validate="validate" :schema="schema" :state="state" class="space-y-4" @submit.prevent="submitState">
-        <UFormGroup label="Title" name="title" description="Use simple task titles" eager-validation>
-            <UInput v-model.trim="state.title" @input="state.title = $event" placeholder="Enter the title for a task" autofocus />
+    <UForm :state="state" class="space-y-4" @submit.prevent="submitState">
+        <UFormGroup label="Title" name="title" description="Use simple task titles">
+            <UInput v-model.trim="state.title" placeholder="Enter the title for a task" autofocus />
         </UFormGroup>
 
-        <UButton label="Add" type="submit" block />
+        <UButton label="Add" type="submit" :disabled="!isValid" block />
     </UForm>
 </template>

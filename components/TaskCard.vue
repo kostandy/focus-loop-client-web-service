@@ -12,7 +12,6 @@ const isNotStarted = computed(() => props.status === TaskStatuses.notStarted);
 const isInProgress = computed(() => props.status === TaskStatuses.inProgress);
 const isCompleted = computed(() => props.status === TaskStatuses.completed);
 
-const UProgressValue = computed(() => isInProgress.value ? undefined : 100);
 const UProgressColor = computed(() => {
     if (isCompleted.value) return 'emerald';
     if (isInProgress.value) return 'sky';
@@ -109,22 +108,26 @@ const displayConfirmationDialog = () => {
             <div class="relative w-full overflow-hidden z-10">
                 <p class="text-lg font-bold break-normal">{{ title }}</p>
 
-                <UProgress class="my-1" :value="UProgressValue" :color="UProgressColor" animation="swing" size="sm" />
+                <UProgress class="my-1" :value="100" :color="UProgressColor" size="sm" />
 
-                <small>
-                    <template v-if="isNotStarted">
-                        Ready to begin
-                    </template>
-                    <template v-else-if="isInProgress">
-                        In progress
-                    </template>
-                    <template v-else-if="isCompleted">
-                        Completed
-                    </template>
-                    <template v-else>
-                        Something went wrong...
-                    </template>
-                </small>
+                <div class="flex items-center">
+                    <UIcon v-if="isInProgress" name="i-heroicons-sparkles-20-solid" color="text-yellow" class="mr-1" />
+
+                    <small>
+                        <template v-if="isNotStarted">
+                            Ready to begin
+                        </template>
+                        <template v-else-if="isInProgress">
+                            In progress...
+                        </template>
+                        <template v-else-if="isCompleted">
+                            Completed
+                        </template>
+                        <template v-else>
+                            Something went wrong...
+                        </template>
+                    </small>
+                </div>
             </div>
         </div>
     </UCard>

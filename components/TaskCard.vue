@@ -93,10 +93,10 @@ const displayConfirmationDialog = () => {
 </script>
 
 <template>
-    <UCard class="relative overflow-hidden rounded-full pr-4" @touchstart="startSwipe"
-        @touchmove="moveSwipe" @touchend="endSwipe">
+    <UCard class="relative overflow-hidden rounded-full pr-4" @touchstart="startSwipe" @touchmove="moveSwipe"
+        @touchend="endSwipe">
         <div class="relative flex items-center">
-            <div class="absolute right-0 flex items-center justify-end h-full w-64 bg-gradient-to-l dark:from-slate-900 transition z-30"
+            <div class="absolute right-0 flex items-center justify-end h-full w-64 bg-gradient-to-l dark:from-slate-900 dark:from-15% transition z-30"
                 :style="{ transform: `translateX(${translateX}px)`, opacity: opacity }">
 
                 <UButton icon="i-heroicons-trash" size="lg" class="rounded-full" variant="outline" color="rose"
@@ -106,26 +106,24 @@ const displayConfirmationDialog = () => {
             <UButton :icon="toggleActionIcon" :color="toggleActionIconColor" :disabled="isCompleted" size="lg"
                 class="mr-4 rounded-full" variant="outline" @click="toggleStatus" />
 
-            <div class="relative w-full overflow-hidden">
+            <div class="relative w-full overflow-hidden z-10">
                 <p class="text-lg font-bold break-normal">{{ title }}</p>
 
                 <UProgress class="my-1" :value="UProgressValue" :color="UProgressColor" animation="swing" size="sm" />
 
                 <small>
-                    <Transition>
-                        <template v-if="isNotStarted">
-                            Ready to begin
-                        </template>
-                        <template v-else-if="isInProgress">
-                            In progress
-                        </template>
-                        <template v-else-if="isCompleted">
-                            Completed
-                        </template>
-                        <template v-else>
-                            Something went wrong...
-                        </template>
-                    </Transition>
+                    <template v-if="isNotStarted">
+                        Ready to begin
+                    </template>
+                    <template v-else-if="isInProgress">
+                        In progress
+                    </template>
+                    <template v-else-if="isCompleted">
+                        Completed
+                    </template>
+                    <template v-else>
+                        Something went wrong...
+                    </template>
                 </small>
             </div>
         </div>

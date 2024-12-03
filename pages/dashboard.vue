@@ -48,7 +48,7 @@ const launchConfetti = () => {
 
 const handleTaskStatusChange = (id: Task['id'], newStatus: TaskStatuses) => {
     taskStore.updateStatusWithDates(id, newStatus);
-    
+
     if (newStatus === TaskStatuses.completed) {
         taskCompletitionSound?.value?.play();
         launchConfetti();
@@ -57,7 +57,7 @@ const handleTaskStatusChange = (id: Task['id'], newStatus: TaskStatuses) => {
 </script>
 
 <template>
-    <UContainer as="main" :class="{'overflow-hidden': taskStore.hasActiveTask}">
+    <UContainer as="main" :class="{ 'overflow-hidden': taskStore.hasActiveTask }">
         <div class="flex items-end justify-between my-4">
             <UButton :to="donationLink" label="Donate 1 TON" class="flex w-auto" target="_blank"
                 leading-icon="i-heroicons-heart" size="md" variant="link" external block />
@@ -67,8 +67,8 @@ const handleTaskStatusChange = (id: Task['id'], newStatus: TaskStatuses) => {
 
         <div class="sticky top-4 my-12 mx-4 z-20">
             <UButton label="Add a Task" class="md:w-auto font-bold text-white shadow-lg rounded-full"
-                trailing-icon="i-heroicons-plus-solid" color="primary" block
-                :disabled="taskStore.isLoading" @click="openNewTaskSlideover" />
+                trailing-icon="i-heroicons-plus-solid" color="primary" block :disabled="taskStore.isLoading"
+                @click="openNewTaskSlideover" />
         </div>
 
         <b v-if="taskStore.isLoading">Loading your tasks...</b>
@@ -77,13 +77,15 @@ const handleTaskStatusChange = (id: Task['id'], newStatus: TaskStatuses) => {
             :class="{ 'z-30': taskStore.hasActiveTask }">
             <template v-if="!taskStore.tasks.length">No tasks are available</template>
             <template v-else>
-                <div v-if="taskStore.hasActiveTask" class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30" />
-                <TaskCard v-for="task in taskStore.tasks" v-bind="task" class="mb-8 scale-95 transition"
+                <div v-if="taskStore.hasActiveTask"
+                    class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30" />
+                <TaskCard v-for="task in taskStore.getSortedTasks" v-bind="task" class="mb-8 scale-95 transition"
                     :class="{
                         'scale-100 shadow-xl z-30': task.status === TaskStatuses.inProgress
-                    }"
-                    @change-status="payload => handleTaskStatusChange(task.id, payload)" @remove="taskStore.remove" />
-                <div v-if="taskStore.tasks.length > 4" class="fixed bottom-0 left-0 right-0 bg-gradient-to-t dark:from-slate-900 h-10" />
+                    }" @change-status="payload => handleTaskStatusChange(task.id, payload)"
+                    @remove="taskStore.remove" />
+                <div v-if="taskStore.tasks.length > 4"
+                    class="fixed bottom-0 left-0 right-0 bg-gradient-to-t dark:from-slate-900 h-10" />
             </template>
         </div>
 

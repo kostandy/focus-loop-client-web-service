@@ -83,17 +83,9 @@ const handleTaskStatusChange = (id: Task['id'], newStatus: TaskStatuses) => {
             </div>
 
             <template v-else>
-                <TransitionGroup>
-                    <template v-if="taskStore.hasActiveTask">
-                        <div class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30" />
-
-                        <div
-                            class="absolute -top-2 left-0 right-0 w-full h-full -translate-y-32 flex justify-center z-40">
-                            <DotLottieVue style="height: 170px; width: 170px" autoplay loop
-                                src="/animations/remix.json" />
-                        </div>
-                    </template>
-                </TransitionGroup>
+                <Transition>
+                    <div v-if="taskStore.hasActiveTask" class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30" />
+                </Transition>
 
                 <TaskCard v-for="task in taskStore.getSortedTasks" v-bind="task" class="mb-8 scale-95 transition"
                     :class="{

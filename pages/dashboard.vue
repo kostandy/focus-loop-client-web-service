@@ -90,7 +90,7 @@ const handleTaskStatusChange = (id: Task['id'], newStatus: TaskStatuses) => {
                 <TaskCard v-for="task in taskStore.getSortedTasks" v-bind="task" class="mb-8 scale-95 transition"
                     :class="{
                         'scale-100 shadow-xl z-50': task.status === TaskStatuses.inProgress
-                    }" @change-status="payload => handleTaskStatusChange(task.id, payload)"
+                    }" @change-status="(payload: TaskStatuses) => handleTaskStatusChange(task.id, payload)"
                     @remove="taskStore.remove" />
                 <div v-if="taskStore.tasks.length > 4"
                     class="fixed bottom-0 left-0 right-0 bg-gradient-to-t dark:from-slate-900 h-10" />

@@ -5,10 +5,15 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: '2024-12-01',
+  
+  devtools: { enabled: process.env.NODE_ENV === 'development' },
 
-  devtools: { enabled: true },
-
-  modules: ['@nuxt/eslint', '@pinia/nuxt', '@nuxt/ui'],
+  modules: [
+    '@nuxt/eslint',
+    '@pinia/nuxt',
+    '@nuxt/ui',
+    '@sentry/nuxt/module'
+  ],
 
   router: {
     options: {
@@ -24,5 +29,16 @@ export default defineNuxtConfig({
 
   typescript: {
     typeCheck: true
+  },
+
+  sentry: {
+    sourceMapsUploadOptions: {
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT
+    }
+  },
+
+  sourcemap: {
+    client: 'hidden'
   }
 })

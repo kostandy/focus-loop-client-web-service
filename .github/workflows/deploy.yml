@@ -36,6 +36,10 @@ jobs:
       # Build the application
       - name: Build the application
         id: build
+        env:
+          SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
         run: |
           npm run generate
 

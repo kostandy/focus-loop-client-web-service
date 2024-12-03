@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import confetti from 'canvas-confetti';
+import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
+
 import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 import { AUDIO_PATHS } from '~/constants/audioConstants';
 import { DONATION_LINK } from '~/constants/linkConstants';
-import confetti from 'canvas-confetti';
 
 const taskStore = useTaskStore()
 
@@ -75,13 +77,27 @@ const handleTaskStatusChange = (id: Task['id'], newStatus: TaskStatuses) => {
 
         <div v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError" class="relative mx-1 z-10"
             :class="{ 'z-30': taskStore.hasActiveTask }">
-            <template v-if="!taskStore.tasks.length">No tasks are available</template>
+
+            <div v-if="!taskStore.tasks.length" class="flex justify-center py-4 mb-4">
+                <DotLottieVue style="height: 170px; width: 170px" autoplay loop src="/animations/curious-duck.json" />
+            </div>
+
             <template v-else>
-                <div v-if="taskStore.hasActiveTask"
-                    class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30" />
+                <TransitionGroup>
+                    <template v-if="taskStore.hasActiveTask">
+                        <div class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30" />
+
+                        <div
+                            class="absolute -top-2 left-0 right-0 w-full h-full -translate-y-32 flex justify-center z-40">
+                            <DotLottieVue style="height: 170px; width: 170px" autoplay loop
+                                src="/animations/remix.json" />
+                        </div>
+                    </template>
+                </TransitionGroup>
+
                 <TaskCard v-for="task in taskStore.getSortedTasks" v-bind="task" class="mb-8 scale-95 transition"
                     :class="{
-                        'scale-100 shadow-xl z-30': task.status === TaskStatuses.inProgress
+                        'scale-100 shadow-xl z-50': task.status === TaskStatuses.inProgress
                     }" @change-status="payload => handleTaskStatusChange(task.id, payload)"
                     @remove="taskStore.remove" />
                 <div v-if="taskStore.tasks.length > 4"

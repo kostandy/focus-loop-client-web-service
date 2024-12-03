@@ -31,8 +31,6 @@ defineShortcuts({
                     <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
                         New Task
                     </h3>
-
-                    <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" @click="closeDialog" />
                 </div>
             </template>
 

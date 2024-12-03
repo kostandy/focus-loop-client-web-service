@@ -14,7 +14,9 @@ const state = reactive<Task>({
     id: generateId(),
     title: '',
     createdAt: new Date(),
-    status: TaskStatuses.notStarted
+    status: TaskStatuses.notStarted,
+    startedAt: '',
+    completedAt: ''
 })
 
 const isValid = computed(() => validate(state).length === 0) // Check if there are no validation errors
@@ -25,7 +27,7 @@ const submitState = async () => {
     }
 }
 
-const validate = (state: any): FormError[] => {
+const validate = (state: any): FormError[] => {    
     const errors = []
     if (!state.title) errors.push({ path: 'title', message: 'Title wasn\'t provided' })
     return errors
@@ -35,8 +37,8 @@ defineExpose({ state })
 </script>
 
 <template>
-    <UForm :state="state" class="space-y-4" @submit.prevent="submitState">
-        <UFormGroup label="Title" name="title" description="Use simple task titles">
+    <UForm :validate="validate" :schema="schema" :state="state" class="space-y-4" @submit.prevent="submitState">
+        <UFormGroup label="Title" name="title" description="Use simple task titles" eager-validation>
             <UInput v-model.trim="state.title" placeholder="Enter the title for a task" autofocus />
         </UFormGroup>
 

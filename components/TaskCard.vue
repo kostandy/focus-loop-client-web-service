@@ -12,18 +12,23 @@ const isNotStarted = computed(() => props.status === TaskStatuses.notStarted);
 const isInProgress = computed(() => props.status === TaskStatuses.inProgress);
 const isCompleted = computed(() => props.status === TaskStatuses.completed);
 
+const UProgressValue = computed(() => isInProgress.value ? undefined : 100);
+const UProgressColor = computed(() => {
+    if (isCompleted.value) return 'emerald';
+    if (isInProgress.value) return 'sky';
+    return 'sky';
+});
+
 const toggleActionIcon = computed(() => {
     const iconMap = {
         [TaskStatuses.notStarted]: 'play',
         [TaskStatuses.inProgress]: 'stop',
-        [TaskStatuses.completed]: 'trophy',
+        [TaskStatuses.completed]: 'check-20-solid',
     };
     return `i-heroicons-${iconMap[props.status]}`
 })
 
-const toggleActionIconColor = computed(() => {
-    return isCompleted.value ? 'emerald' : 'sky';
-})
+const toggleActionIconColor = computed(() => isCompleted.value ? 'emerald' : 'sky');
 
 const toggleStatus = () => {
     const newStatus = isNotStarted.value ? TaskStatuses.inProgress : TaskStatuses.completed;
@@ -69,9 +74,7 @@ const endSwipe = (e: TouchEvent) => {
     moveSwipeTriggered.value = false;
 };
 
-const remove = () => {
-    emit('remove', props.id);
-};
+const remove = () => emit('remove', props.id);
 
 const modal = useModal();
 
@@ -90,28 +93,28 @@ const displayConfirmationDialog = () => {
 </script>
 
 <template>
-    <UCard class="relative overflow-hidden rounded-full pr-4 z-10" @touchstart="startSwipe"
+    <UCard class="relative overflow-hidden rounded-full pr-4" @touchstart="startSwipe"
         @touchmove="moveSwipe" @touchend="endSwipe">
         <div class="relative flex items-center">
             <div class="absolute right-0 flex items-center justify-end h-full w-64 bg-gradient-to-l dark:from-slate-900 transition z-30"
                 :style="{ transform: `translateX(${translateX}px)`, opacity: opacity }">
 
-                <UButton icon="i-heroicons-trash" size="lg" class="rounded-full z-10" variant="outline" color="rose"
+                <UButton icon="i-heroicons-trash" size="lg" class="rounded-full" variant="outline" color="rose"
                     @touchstart.stop @touchmove.stop @touchend.stop @click="displayConfirmationDialog" />
             </div>
 
             <UButton :icon="toggleActionIcon" :color="toggleActionIconColor" :disabled="isCompleted" size="lg"
-                class="mr-4 rounded-full z-20" variant="outline" @click="toggleStatus" />
+                class="mr-4 rounded-full" variant="outline" @click="toggleStatus" />
 
-            <div class="relative w-full overflow-hidden z-10">
-                <p class="truncate font-bold">{{ title }}</p>
+            <div class="relative w-full overflow-hidden">
+                <p class="text-lg font-bold break-normal">{{ title }}</p>
 
-                <UProgress class="my-1" :value="isInProgress ? undefined : 0" animation="swing" />
+                <UProgress class="my-1" :value="UProgressValue" :color="UProgressColor" animation="swing" size="sm" />
 
-                <small class="text-grey">
+                <small>
                     <Transition>
                         <template v-if="isNotStarted">
-                            Wait to start
+                            Ready to begin
                         </template>
                         <template v-else-if="isInProgress">
                             In progress

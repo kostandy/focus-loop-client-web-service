@@ -7,7 +7,10 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
   },
   "dependencies": {
     "@lottiefiles/dotlottie-vue": "^0.5.2",
@@ -24,6 +27,8 @@
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.6.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
     "typescript": "^5.7.2",
     "vue-tsc": "^2.1.10"
   }

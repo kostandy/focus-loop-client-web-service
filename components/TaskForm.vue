@@ -1,47 +1,63 @@
 <script setup lang="ts">
-import { z } from 'zod'
-import type { FormError, FormSubmitEvent } from '#ui/types'
+import { z } from "zod";
+import type { FormError } from "#ui/types";
 
-const emit = defineEmits(['submit'])
+const emit = defineEmits(["submit"]);
 
 const schema = z.object({
-    title: z.string({
-        required_error: 'The title is required'
-    }),
-})
+  title: z.string({
+    required_error: "The title is required",
+  }),
+});
 
 const state = reactive<Task>({
-    id: generateId(),
-    title: '',
-    createdAt: new Date(),
-    status: TaskStatuses.notStarted,
-    startedAt: '',
-    completedAt: ''
-})
+  id: generateId(),
+  title: "",
+  createdAt: new Date(),
+  status: TaskStatuses.notStarted,
+  startedAt: "",
+  completedAt: "",
+});
 
-const isValid = computed(() => validate(state).length === 0) // Check if there are no validation errors
+const isValid = computed(() => validate(state).length === 0);
 
 const submitState = async () => {
-    if (isValid) {
-        emit('submit', state)
-    }
-}
+  if (isValid.value) {
+    emit("submit", state);
+  }
+};
 
-const validate = (state: any): FormError[] => {    
-    const errors = []
-    if (!state.title) errors.push({ path: 'title', message: 'Title wasn\'t provided' })
-    return errors
-}
+const validate = (state: Task): FormError[] => {
+  const errors = [];
+  if (!state.title)
+    errors.push({ path: "title", message: "Title wasn't provided" });
+  return errors;
+};
 
-defineExpose({ state })
+defineExpose({ state });
 </script>
 
 <template>
-    <UForm :validate="validate" :schema="schema" :state="state" class="space-y-4" @submit.prevent="submitState">
-        <UFormGroup label="Title" name="title" description="Use simple task titles" eager-validation>
-            <UInput v-model.trim="state.title" placeholder="Enter the title for a task" autofocus />
-        </UFormGroup>
+  <UForm
+    :validate="validate"
+    :schema="schema"
+    :state="state"
+    class="space-y-4"
+    @submit.prevent="submitState"
+  >
+    <UFormGroup
+      label="Title"
+      name="title"
+      description="Use simple task titles"
+      eager-validation
+    >
+      <UInput
+        v-model.trim="state.title"
+        placeholder="Enter the title for a task"
+        autofocus
+      />
+    </UFormGroup>
 
-        <UButton label="Add" type="submit" :disabled="!isValid" block />
-    </UForm>
+    <UButton label="Add" type="submit" :disabled="!isValid" block />
+  </UForm>
 </template>

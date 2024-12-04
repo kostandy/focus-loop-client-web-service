@@ -1,6 +1,6 @@
-import * as Sentry from "@sentry/nuxt";
+import { init as sentryInit } from "@sentry/nuxt";
 
-Sentry.init({
+sentryInit({
   // If set up, you can use your runtime config here
   // dsn: useRuntimeConfig().public.sentry.dsn,
   dsn: useRuntimeConfig().public.sentry.dsn,
@@ -11,8 +11,9 @@ Sentry.init({
 
   release: useRuntimeConfig().public.sentry.release,
 
-  environment: process.env.NODE_ENV === 'production' ? 'production' : 'localhost',
+  environment:
+    process.env.NODE_ENV === "production" ? "production" : "localhost",
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
-  debug: process.env.NODE_ENV !== 'production',
+  debug: process.env.NODE_ENV !== "production",
 });

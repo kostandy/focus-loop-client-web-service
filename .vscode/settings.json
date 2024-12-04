@@ -36,5 +36,8 @@
   ],
   "tsimporter.showNotifications": true,
   "tsimporter.spaceBetweenBraces": true,
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "[jsonc]": {
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  }
 }

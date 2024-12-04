@@ -43,6 +43,7 @@ export default defineNuxtConfig({
 
   sentry: {
     sourceMapsUploadOptions: {
+      telemetry: false,
       org: process.env.SENTRY_ORG,
       project: process.env.SENTRY_PROJECT,
     },
@@ -51,6 +52,6 @@ export default defineNuxtConfig({
   spaLoadingTemplate: "spa-loading-template.html",
 
   sourcemap: {
-    client: "hidden",
+    client: true,
   },
 });

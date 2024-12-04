@@ -19,12 +19,12 @@ const UProgressColor = computed(() => {
 });
 
 const toggleActionIcon = computed(() => {
-    const iconMap = {
+    const iconMap: Record<TaskStatuses, string> = {
         [TaskStatuses.notStarted]: 'play',
         [TaskStatuses.inProgress]: 'stop',
         [TaskStatuses.completed]: 'check-20-solid',
     };
-    return `i-heroicons-${iconMap[props.status]}`
+    return `i-heroicons-${iconMap[props.status as TaskStatuses]}`
 })
 
 const toggleActionIconColor = computed(() => isCompleted.value ? 'emerald' : 'sky');

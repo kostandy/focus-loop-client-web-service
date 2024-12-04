@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import confetti from 'canvas-confetti';
-import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
+import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
 
 import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 import { AUDIO_PATHS } from '~/constants/audioConstants';
@@ -84,11 +84,12 @@ const handleTaskStatusChange = (id: Task['id'], newStatus: TaskStatuses) => {
 
             <template v-else>
                 <Transition>
-                    <div v-if="taskStore.hasActiveTask" class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30" />
+                    <div v-if="taskStore.hasActiveTask"
+                        class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30" />
                 </Transition>
 
-                <TaskCard v-for="task in taskStore.getSortedTasks" v-bind="task" class="mb-8 scale-95 transition"
-                    :class="{
+                <TaskCard v-for="task in taskStore.getSortedTasks" v-bind="task" :key="task.id"
+                    class="mb-8 scale-95 transition" :class="{
                         'scale-100 shadow-xl z-50': task.status === TaskStatuses.inProgress
                     }" @change-status="(payload: TaskStatuses) => handleTaskStatusChange(task.id, payload)"
                     @remove="taskStore.remove" />

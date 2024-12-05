@@ -44,7 +44,12 @@ export default defineNuxtConfig({
 
 	sentry: {
 		sourceMapsUploadOptions: {
+			sourcemaps: {
+				assets: ['./dist/_nuxt/*/**/*'],
+				filesToDeleteAfterUpload: ['./dist/_nuxt/*.map'],
+			},
 			telemetry: false,
+			authToken: process.env.SENTRY_AUTH_TOKEN,
 			org: process.env.SENTRY_ORG,
 			project: process.env.SENTRY_PROJECT,
 		},

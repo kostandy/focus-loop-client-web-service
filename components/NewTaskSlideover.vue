@@ -37,10 +37,11 @@ const displayDebugSection = () => {
 </script>
 
 <template>
+<!-- TODO: Consider using duration 500 for people w/ ASD, and using default duration 300 for people w/ ADHD -->
 <USlideover
 	:model-value="isVisible.value"
 	side="bottom"
-	:ui="{ base: 'rounded-t-3xl overflow-hidden', height: '' }"
+	:ui="{ base: 'rounded-t-3xl duration-500 overflow-hidden', height: '' }"
 >
 	<UCard
 		:ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"

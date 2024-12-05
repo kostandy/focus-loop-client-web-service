@@ -24,8 +24,6 @@ const state = reactive<Task>({
 const isValid = computed(() => validate(state).length === 0);
 
 const submitState = async () => {
-	console.debug('Submit state event is triggered');
-
 	if (isValid.value) {
 		state.title = state.title.trim();
 		emit('submit', state);
@@ -33,8 +31,6 @@ const submitState = async () => {
 };
 
 const validate = (state: Task): FormError[] => {
-	console.debug('Validate event is triggered');
-
 	const errors = [];
 	if (!state.title.trim()) errors.push({ path: 'title', message: "Title wasn't provided" });
 	return errors;
@@ -54,7 +50,7 @@ defineExpose({ state });
 	<UFormGroup
 		label="Title"
 		name="title"
-		description="Use simple task titles"
+		description="Try to keep it simple"
 		eager-validation
 	>
 		<UInput

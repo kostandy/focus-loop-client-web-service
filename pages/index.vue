@@ -1,7 +1,7 @@
 <script setup lang="ts">
-onBeforeMount(() => navigateTo('/dashboard'))
+onBeforeMount(() => navigateTo('/dashboard'));
 </script>
 
 <template>
-    <div />
+  <div />
 </template>

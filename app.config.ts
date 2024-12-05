@@ -1,16 +1,16 @@
 export default defineAppConfig({
-    ui: {
-        primary: 'blue',
-        gray: 'slate',
-        input: {
-            default: {
-                size: "xl"
-            }
-        },
-        button: {
-            default: {
-                size: "xl"
-            }
-        },
-    },
-})
+	ui: {
+		primary: 'blue',
+		gray: 'slate',
+		input: {
+			default: {
+				size: 'xl',
+			},
+		},
+		button: {
+			default: {
+				size: 'xl',
+			},
+		},
+	},
+});

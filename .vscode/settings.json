@@ -1,44 +1,42 @@
 {
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-  "editor.formatOnSave": true,
-  "editor.formatOnSaveMode": "file",
-  "editor.formatOnType": false,
-  "editor.quickSuggestions": {
-    "strings": "on"
-  },
-  "eslint.useFlatConfig": true,
-  "eslint.validate": [
-    "javascript",
-    "typescript",
-    "vue"
-  ],
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "files.autoSave": "onFocusChange",
-  "nuxtr.piniaFiles.defaultTemplate": "setup",
-  "nuxtr.vueFiles.firstTag": "script",
-  "nuxtr.vueFiles.script.defaultLanguage": "ts",
-  "nuxtr.vueFiles.script.type": "setup",
-  "nuxtr.vueFiles.style.addStyleTag": true,
-  "nuxtr.vueFiles.style.alwaysScoped": true,
-  "nuxtr.vueFiles.style.defaultLanguage": "css",
-  "nuxtr.vueFiles.template.defaultLanguage": "html",
-  "tailwindCSS.emmetCompletions": true,
-  "tailwindCSS.validate": true,
-  "tsimporter.filesToExclude": [
-    "node_modules",
-    ".git"
-  ],
-  "tsimporter.filesToScan": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.vue"
-  ],
-  "tsimporter.showNotifications": true,
-  "tsimporter.spaceBetweenBraces": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "[jsonc]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
-  }
+	// "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+	// "editor.formatOnSave": true,
+	"editor.formatOnSaveMode": "file",
+	"editor.formatOnType": false,
+	"editor.quickSuggestions": {
+		"strings": "on"
+	},
+	"editor.formatOnSave": false,
+	"editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+	"editor.codeActionsOnSave": [
+		"source.formatDocument",
+		"source.fixAll.eslint"
+	],
+	"eslint.useFlatConfig": true,
+	"eslint.validate": ["javascript", "typescript", "vue"],
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+	"files.autoSave": "onFocusChange",
+	"nuxtr.piniaFiles.defaultTemplate": "setup",
+	"nuxtr.vueFiles.firstTag": "script",
+	"nuxtr.vueFiles.script.defaultLanguage": "ts",
+	"nuxtr.vueFiles.script.type": "setup",
+	"nuxtr.vueFiles.style.addStyleTag": true,
+	"nuxtr.vueFiles.style.alwaysScoped": true,
+	"nuxtr.vueFiles.style.defaultLanguage": "css",
+	"nuxtr.vueFiles.template.defaultLanguage": "html",
+	"tailwindCSS.emmetCompletions": true,
+	"tailwindCSS.validate": true,
+	"tsimporter.filesToExclude": ["node_modules", ".git"],
+	"tsimporter.filesToScan": ["**/*.ts", "**/*.tsx", "**/*.vue"],
+	"tsimporter.showNotifications": true,
+	"tsimporter.spaceBetweenBraces": true,
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"[jsonc]": {
+		"editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+	},
+	"[dockerfile]": {
+		"editor.defaultFormatter": "ms-azuretools.vscode-docker"
+	}
 }

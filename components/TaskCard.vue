@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { TaskStatuses, type Task } from "@/stores/task.js";
-import ConfirmModal from "./ConfirmModal.vue";
+import { TaskStatuses, type Task } from '@/stores/task.js';
+import ConfirmModal from './ConfirmModal.vue';
 
 const props = defineProps<Task>();
 const emit = defineEmits<{
-  (e: "changeStatus", status: TaskStatuses): void;
-  (e: "remove", id: Task["id"]): void;
+	(e: 'changeStatus', status: TaskStatuses): void;
+	(e: 'remove', id: Task['id']): void;
 }>();
 
 const isNotStarted = computed(() => props.status === TaskStatuses.notStarted);
@@ -13,29 +13,25 @@ const isInProgress = computed(() => props.status === TaskStatuses.inProgress);
 const isCompleted = computed(() => props.status === TaskStatuses.completed);
 
 const UProgressColor = computed(() => {
-  if (isCompleted.value) return "emerald";
-  if (isInProgress.value) return "sky";
-  return "sky";
+	if (isCompleted.value) return 'emerald';
+	if (isInProgress.value) return 'sky';
+	return 'sky';
 });
 
 const toggleActionIcon = computed(() => {
-  const iconMap: Record<TaskStatuses, string> = {
-    [TaskStatuses.notStarted]: "play",
-    [TaskStatuses.inProgress]: "stop",
-    [TaskStatuses.completed]: "check-20-solid",
-  };
-  return `i-heroicons-${iconMap[props.status as TaskStatuses]}`;
+	const iconMap: Record<TaskStatuses, string> = {
+		[TaskStatuses.notStarted]: 'play',
+		[TaskStatuses.inProgress]: 'stop',
+		[TaskStatuses.completed]: 'check-20-solid',
+	};
+	return `i-heroicons-${iconMap[props.status as TaskStatuses]}`;
 });
 
-const toggleActionIconColor = computed(() =>
-  isCompleted.value ? "emerald" : "sky",
-);
+const toggleActionIconColor = computed(() => (isCompleted.value ? 'emerald' : 'sky'));
 
 const toggleStatus = () => {
-  const newStatus = isNotStarted.value
-    ? TaskStatuses.inProgress
-    : TaskStatuses.completed;
-  emit("changeStatus", newStatus);
+	const newStatus = isNotStarted.value ? TaskStatuses.inProgress : TaskStatuses.completed;
+	emit('changeStatus', newStatus);
 };
 
 const translateX = ref(100); // Default slideover position (fully hidden)
@@ -45,49 +41,49 @@ const actionsHasShown = ref(false);
 const moveSwipeTriggered = ref(false);
 
 const startSwipe = (e: TouchEvent) => {
-  startX.value = e.touches[0].clientX;
+	startX.value = e.touches[0].clientX;
 };
 
 const calculateSwipeValues = (deltaX: number) => {
-  const newTranslateX = Math.max(0, Math.min(100, 100 - Math.abs(deltaX)));
-  actionsHasShown.value = newTranslateX === 0;
-  opacity.value = actionsHasShown.value ? 1 : 0;
-  return newTranslateX;
+	const newTranslateX = Math.max(0, Math.min(100, 100 - Math.abs(deltaX)));
+	actionsHasShown.value = newTranslateX === 0;
+	opacity.value = actionsHasShown.value ? 1 : 0;
+	return newTranslateX;
 };
 
 const moveSwipe = throttle(async (e: TouchEvent) => {
-  moveSwipeTriggered.value = true;
+	moveSwipeTriggered.value = true;
 
-  const deltaX = e.touches[0].clientX - startX.value;
-  translateX.value = calculateSwipeValues(deltaX);
+	const deltaX = e.touches[0].clientX - startX.value;
+	translateX.value = calculateSwipeValues(deltaX);
 
-  await nextTick();
+	await nextTick();
 }, 100);
 
 const endSwipe = (e: TouchEvent) => {
-  if (startX.value && !moveSwipeTriggered.value) {
-    const deltaX = e.changedTouches[0].clientX - startX.value;
-    translateX.value = calculateSwipeValues(deltaX);
-  }
-  translateX.value = translateX.value <= 80 ? 0 : 100; // Fully reveal or hide actions based on swipe threshold
-  moveSwipeTriggered.value = false; // Reset moveSwipeTriggered state
+	if (startX.value && !moveSwipeTriggered.value) {
+		const deltaX = e.changedTouches[0].clientX - startX.value;
+		translateX.value = calculateSwipeValues(deltaX);
+	}
+	translateX.value = translateX.value <= 80 ? 0 : 100; // Fully reveal or hide actions based on swipe threshold
+	moveSwipeTriggered.value = false; // Reset moveSwipeTriggered state
 };
 
-const remove = () => emit("remove", props.id);
+const remove = () => emit('remove', props.id);
 
 const modal = useModal();
 
 const displayConfirmationDialog = () => {
-  modal.open(ConfirmModal, {
-    title: props.title,
-    onSuccess() {
-      modal.close();
+	modal.open(ConfirmModal, {
+		title: props.title,
+		onSuccess() {
+			modal.close();
 
-      translateX.value = 100; // Hide the actions menu
+			translateX.value = 100; // Hide the actions menu
 
-      remove();
-    },
-  });
+			remove();
+		},
+	});
 };
 </script>
 
@@ -127,7 +123,9 @@ const displayConfirmationDialog = () => {
       />
 
       <div class="relative w-full overflow-hidden z-10">
-        <p class="text-lg font-bold break-normal">{{ title }}</p>
+        <p class="text-lg font-bold break-normal">
+          {{ title }}
+        </p>
 
         <UProgress
           class="my-1"

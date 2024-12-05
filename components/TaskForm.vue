@@ -1,37 +1,36 @@
 <script setup lang="ts">
-import { z } from "zod";
-import type { FormError } from "#ui/types";
+import { z } from 'zod';
+import type { FormError } from '#ui/types';
 
-const emit = defineEmits(["submit"]);
+const emit = defineEmits(['submit']);
 
 const schema = z.object({
-  title: z.string({
-    required_error: "The title is required",
-  }),
+	title: z.string({
+		required_error: 'The title is required',
+	}),
 });
 
 const state = reactive<Task>({
-  id: generateId(),
-  title: "",
-  createdAt: new Date(),
-  status: TaskStatuses.notStarted,
-  startedAt: "",
-  completedAt: "",
+	id: generateId(),
+	title: '',
+	createdAt: new Date(),
+	status: TaskStatuses.notStarted,
+	startedAt: '',
+	completedAt: '',
 });
 
 const isValid = computed(() => validate(state).length === 0);
 
 const submitState = async () => {
-  if (isValid.value) {
-    emit("submit", state);
-  }
+	if (isValid.value) {
+		emit('submit', state);
+	}
 };
 
 const validate = (state: Task): FormError[] => {
-  const errors = [];
-  if (!state.title)
-    errors.push({ path: "title", message: "Title wasn't provided" });
-  return errors;
+	const errors = [];
+	if (!state.title) errors.push({ path: 'title', message: "Title wasn't provided" });
+	return errors;
 };
 
 defineExpose({ state });
@@ -58,6 +57,11 @@ defineExpose({ state });
       />
     </UFormGroup>
 
-    <UButton label="Add" type="submit" :disabled="!isValid" block />
+    <UButton
+      label="Add"
+      type="submit"
+      :disabled="!isValid"
+      block
+    />
   </UForm>
 </template>

@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22" # Use the Node.js version you need
+          node-version: '22' # Use the Node.js version you need
 
       # Cache node modules
       - name: Cache node modules

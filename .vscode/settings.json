@@ -8,10 +8,7 @@
 	},
 	"editor.formatOnSave": false,
 	"editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-	"editor.codeActionsOnSave": [
-		"source.formatDocument",
-		"source.fixAll.eslint"
-	],
+	"editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
 	"eslint.useFlatConfig": true,
 	"eslint.validate": ["javascript", "typescript", "vue"],
 	"files.associations": {

@@ -11,4 +11,28 @@ export default withNuxt([
 			'vue/multi-word-component-names': 'off',
 		},
 	},
+	{
+		rules: {
+			'vue/html-indent': [
+				'error',
+				'tab',
+				{
+					attribute: 1,
+					baseIndent: 0,
+					alignAttributesVertically: true,
+					ignores: [],
+				},
+			],
+			'vue/block-lang': [
+				'error',
+				{
+					script: {
+						lang: 'ts',
+					},
+				},
+			],
+			'vue/component-api-style': ['error', ['script-setup', 'composition']],
+			'vue/define-emits-declaration': ['error', 'type-based'],
+		},
+	},
 ]);

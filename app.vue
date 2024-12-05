@@ -43,10 +43,10 @@ useHead({
 </script>
 
 <template>
-  <NuxtRouteAnnouncer />
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
-  <UModals />
-  <USlideovers />
+<NuxtRouteAnnouncer />
+<NuxtLayout>
+	<NuxtPage />
+</NuxtLayout>
+<UModals />
+<USlideovers />
 </template>

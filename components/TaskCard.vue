@@ -88,68 +88,68 @@ const displayConfirmationDialog = () => {
 </script>
 
 <template>
-  <UCard
-    class="relative overflow-hidden rounded-full pr-4"
-    @touchstart="startSwipe"
-    @touchmove="moveSwipe"
-    @touchend="endSwipe"
-  >
-    <div class="relative flex items-center">
-      <div
-        class="absolute right-0 flex items-center justify-end h-full w-64 bg-gradient-to-l dark:from-slate-900 dark:from-15% transition z-30"
-        :style="{ transform: `translateX(${translateX}px)`, opacity: opacity }"
-      >
-        <UButton
-          icon="i-heroicons-trash"
-          size="lg"
-          class="rounded-full"
-          variant="outline"
-          color="rose"
-          @touchstart.stop
-          @touchmove.stop
-          @touchend.stop
-          @click="displayConfirmationDialog"
-        />
-      </div>
+<UCard
+	class="relative overflow-hidden rounded-full pr-4"
+	@touchstart.passive="startSwipe"
+	@touchmove.passive="moveSwipe"
+	@touchend.passive="endSwipe"
+>
+	<div class="relative flex items-center">
+		<div
+			class="absolute right-0 flex items-center justify-end h-full w-64 bg-gradient-to-l dark:from-slate-900 dark:from-15% transition z-30"
+			:style="{ transform: `translateX(${translateX}px)`, opacity: opacity }"
+		>
+			<UButton
+				icon="i-heroicons-trash"
+				size="lg"
+				class="rounded-full"
+				variant="outline"
+				color="rose"
+				@touchstart.passive.stop
+				@touchmove.passive.stop
+				@touchend.passive.stop
+				@click="displayConfirmationDialog"
+			/>
+		</div>
 
-      <UButton
-        :icon="toggleActionIcon"
-        :color="toggleActionIconColor"
-        :disabled="isCompleted"
-        size="lg"
-        class="mr-4 rounded-full"
-        variant="outline"
-        @click="toggleStatus"
-      />
+		<UButton
+			:icon="toggleActionIcon"
+			:color="toggleActionIconColor"
+			:disabled="isCompleted"
+			size="lg"
+			class="mr-4 rounded-full"
+			variant="outline"
+			@click="toggleStatus"
+		/>
 
-      <div class="relative w-full overflow-hidden z-10">
-        <p class="text-lg font-bold break-normal">
-          {{ title }}
-        </p>
+		<div class="relative w-full overflow-hidden z-10">
+			<p class="text-lg font-bold break-normal">
+				{{ title }}
+			</p>
 
-        <UProgress
-          class="my-1"
-          :value="100"
-          :color="UProgressColor"
-          size="sm"
-        />
+			<UProgress
+				class="my-1"
+				:value="100"
+				:color="UProgressColor"
+				size="sm"
+			/>
 
-        <div class="flex items-center">
-          <UIcon
-            v-if="isInProgress"
-            name="i-heroicons-sparkles-20-solid"
-            color="text-yellow"
-            class="mr-1"
-          />
+			<div class="flex items-center">
+				<UIcon
+					v-if="isInProgress"
+					name="i-heroicons-sparkles-20-solid"
+					color="text-yellow"
+					class="mr-1"
+				/>
 
-          <small>
-            <template v-if="isNotStarted"> Ready to begin </template>
-            <template v-else-if="isInProgress"> In progress... </template>
-            <template v-else-if="isCompleted"> Completed </template>
-            <template v-else> Something went wrong... </template>
-          </small>
-        </div>
-      </div>
-    </div>
-  </UCard>
+				<small>
+					<template v-if="isNotStarted"> Ready to begin </template>
+					<template v-else-if="isInProgress"> In progress... </template>
+					<template v-else-if="isCompleted"> Completed </template>
+					<template v-else> Something went wrong... </template>
+				</small>
+			</div>
+		</div>
+	</div>
+</UCard>
 </template>

@@ -12,7 +12,4 @@ sentryInit({
 	release: useRuntimeConfig().public.sentry.release,
 
 	environment: process.env.NODE_ENV === 'production' ? 'production' : 'localhost',
-
-	// Setting this option to true will print useful information to the console while you're setting up Sentry.
-	debug: process.env.NODE_ENV !== 'production',
 });

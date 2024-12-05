@@ -3,5 +3,5 @@ onBeforeMount(() => navigateTo('/dashboard'));
 </script>
 
 <template>
-  <div />
+<div />
 </template>

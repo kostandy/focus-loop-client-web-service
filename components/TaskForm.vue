@@ -2,7 +2,9 @@
 import { z } from 'zod';
 import type { FormError } from '#ui/types';
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits<{
+	(e: 'submit', payload: Task): void;
+}>();
 
 const schema = z.object({
 	title: z.string({
@@ -37,31 +39,31 @@ defineExpose({ state });
 </script>
 
 <template>
-  <UForm
-    :validate="validate"
-    :schema="schema"
-    :state="state"
-    class="space-y-4"
-    @submit.prevent="submitState"
-  >
-    <UFormGroup
-      label="Title"
-      name="title"
-      description="Use simple task titles"
-      eager-validation
-    >
-      <UInput
-        v-model.trim="state.title"
-        placeholder="Enter the title for a task"
-        autofocus
-      />
-    </UFormGroup>
+<UForm
+	:validate="validate"
+	:schema="schema"
+	:state="state"
+	class="space-y-4"
+	@submit.prevent="submitState"
+>
+	<UFormGroup
+		label="Title"
+		name="title"
+		description="Use simple task titles"
+		eager-validation
+	>
+		<UInput
+			v-model.trim="state.title"
+			placeholder="Enter the title for a task"
+			autofocus
+		/>
+	</UFormGroup>
 
-    <UButton
-      label="Add"
-      type="submit"
-      :disabled="!isValid"
-      block
-    />
-  </UForm>
+	<UButton
+		label="Add"
+		type="submit"
+		:disabled="!isValid"
+		block
+	/>
+</UForm>
 </template>

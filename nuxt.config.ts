@@ -38,6 +38,7 @@ export default defineNuxtConfig({
 	},
 
 	typescript: {
+		builder: 'vite',
 		typeCheck: true,
 	},
 

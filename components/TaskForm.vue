@@ -24,12 +24,17 @@ const state = reactive<Task>({
 const isValid = computed(() => validate(state).length === 0);
 
 const submitState = async () => {
+	console.debug('Submit state event is triggered');
+
 	if (isValid.value) {
+		state.title = state.title.trim();
 		emit('submit', state);
 	}
 };
 
 const validate = (state: Task): FormError[] => {
+	console.log('Validate event is triggered');
+
 	const errors = [];
 	if (!state.title) errors.push({ path: 'title', message: "Title wasn't provided" });
 	return errors;
@@ -53,7 +58,7 @@ defineExpose({ state });
 		eager-validation
 	>
 		<UInput
-			v-model.trim="state.title"
+			v-model="state.title"
 			placeholder="Enter the title for a task"
 			autofocus
 		/>

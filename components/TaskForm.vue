@@ -33,10 +33,10 @@ const submitState = async () => {
 };
 
 const validate = (state: Task): FormError[] => {
-	console.log('Validate event is triggered');
+	console.debug('Validate event is triggered');
 
 	const errors = [];
-	if (!state.title) errors.push({ path: 'title', message: "Title wasn't provided" });
+	if (!state.title.trim()) errors.push({ path: 'title', message: "Title wasn't provided" });
 	return errors;
 };
 

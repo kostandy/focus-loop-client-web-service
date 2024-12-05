@@ -18,6 +18,7 @@ logs
 .fleet
 .idea
 .cursorignore
+.eslintcache
 
 # Local env files
 .env

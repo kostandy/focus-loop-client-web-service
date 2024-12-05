@@ -6,6 +6,7 @@
   "editor.quickSuggestions": {
     "strings": "on"
   },
+  "eslint.useFlatConfig": true,
   "eslint.validate": [
     "javascript",
     "typescript",

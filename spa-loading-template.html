@@ -1,43 +1,35 @@
-<!-- https://github.com/barelyhuman/snips/blob/dev/pages/css-loader.md -->
-<div class="loader" />
-<style>
-	html {
-		background: #0f172a;
-	}
-	.loader {
-		display: block;
-		position: fixed;
-		z-index: 1031;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 18px;
-		height: 18px;
-		box-sizing: border-box;
-		border: solid 2px transparent;
-		border-top-color: #000;
-		border-left-color: #000;
-		border-bottom-color: #efefef;
-		border-right-color: #efefef;
-		border-radius: 50%;
-		-webkit-animation: loader 400ms linear infinite;
-		animation: loader 400ms linear infinite;
-	}
+<div class="loader">
+	<span class="loader__sub-heading">🎯</span>
+	<h1 class="loader__heading">Focus Loop</h1>
+</div>
+<style type="text/css">
+html {
+	background: #0f172a;
+}
+.loader {
+	display: block;
+	position: fixed;
+	z-index: 1031;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	box-sizing: border-box;
+}
 
-	@-webkit-keyframes loader {
-		0% {
-			-webkit-transform: translate(-50%, -50%) rotate(0deg);
-		}
-		100% {
-			-webkit-transform: translate(-50%, -50%) rotate(360deg);
-		}
-	}
-	@keyframes loader {
-		0% {
-			transform: translate(-50%, -50%) rotate(0deg);
-		}
-		100% {
-			transform: translate(-50%, -50%) rotate(360deg);
-		}
-	}
+.loader__heading {
+	display: flex;
+	font-family: sans-serif;
+	text-wrap: nowrap;
+	font-size: 2.5rem;
+	color: white;
+	margin-bottom: 1rem;
+}
+
+.loader__sub-heading {
+	display: flex;
+	flex-direction: column;
+	font-size: 7rem;
+	text-align: center;
+	margin-bottom: 1rem;
+}
 </style>

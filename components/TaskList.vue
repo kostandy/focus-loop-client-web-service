@@ -79,31 +79,40 @@ const displayConfirmSlideover = (id: Task['id']) => {
 	/>
 
 	<div class="relative w-full overflow-hidden z-10">
-		<p class="text-lg font-bold break-normal">
+		<p class="text-lg capitalize font-bold break-normal">
 			{{ item.title }}
 		</p>
 
 		<UProgress
-			class="my-1 pr-8"
+			class="my-2 pr-8"
 			:value="100"
 			:color="UProgressColor(item)"
 			size="sm"
 		/>
 
 		<div class="flex items-center">
-			<UIcon
-				v-if="isInProgress(item)"
-				name="i-heroicons-sparkles-20-solid"
-				color="text-yellow"
-				class="mr-1"
-			/>
-
-			<small>
-				<template v-if="isNotStarted(item)">Ready to begin</template>
-				<template v-else-if="isInProgress(item)">In progress...</template>
-				<template v-else-if="isCompleted(item)">Completed</template>
-				<template v-else>Something went wrong...</template>
-			</small>
+			<UBadge
+				variant="soft"
+				:color="UProgressColor(item)"
+			>
+				<template v-if="isNotStarted(item)">
+					Ready to begin
+				</template>
+				<template v-else-if="isInProgress(item)">
+					<UIcon
+						name="i-heroicons-sparkles-20-solid"
+						color="text-yellow"
+						class="mr-1"
+					/>
+					In progress...
+				</template>
+				<template v-else-if="isCompleted(item)">
+					Completed
+				</template>
+				<template v-else>
+					Something went wrong...
+				</template>
+			</UBadge>
 		</div>
 	</div>
 </TaskListItemSwipeable>

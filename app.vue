@@ -47,6 +47,5 @@ useHead({
 <NuxtLayout>
 	<NuxtPage />
 </NuxtLayout>
-<UModals />
 <USlideovers />
 </template>

@@ -124,15 +124,47 @@ const updateTask = (newTask: Task) => {
 				/>
 			</Transition>
 
-			<TaskList
-				:items="taskStore.getSortedTasks"
-				@remove-item="taskStore.remove"
-				@update-item="updateTask"
-			/>
-			<!-- <div
-				v-if="taskStore.tasks.length > 4"
-				class="fixed bottom-0 left-0 right-0 bg-gradient-to-t dark:from-slate-900 h-10"
-			/> -->
+			<template v-if="!!taskStore.getActiveTask">
+				<UDivider
+					label="🟢 Focus Now"
+					size="lg"
+					class="my-6 px-4"
+				/>
+
+				<TaskList
+					:items="taskStore.getActiveTask ? [taskStore.getActiveTask] : []"
+					@remove-item="taskStore.remove"
+					@update-item="updateTask"
+				/>
+			</template>
+
+			<template v-if="taskStore.getWaitingTasks.length">
+				<UDivider
+					:label="`⏳ Up Next (${taskStore.getWaitingTasks.length})`"
+					size="lg"
+					class="my-6 px-4"
+				/>
+
+				<TaskList
+					:items="taskStore.getWaitingTasks"
+					@remove-item="taskStore.remove"
+					@update-item="updateTask"
+				/>
+			</template>
+
+			<template v-if="taskStore.getCompletedTasks.length">
+				<UDivider
+					:label="`✅ Done & Dusted (${taskStore.getCompletedTasks.length})`"
+					size="lg"
+					class="my-6 px-4"
+				/>
+
+				<TaskList
+					:items="taskStore.getCompletedTasks"
+					@remove-item="taskStore.remove"
+					@update-item="updateTask"
+				/>
+			</template>
 		</template>
 	</div>
 

@@ -71,9 +71,9 @@ const displayConfirmSlideover = (id: Task['id']) => {
 		:icon="toggleActionIcon(item)"
 		:color="toggleActionIconColor(item)"
 		:disabled="isCompleted(item)"
-		size="lg"
+		:size="isCompleted(item) ? 'xl' : 'lg'"
 		class="mr-4 z-20"
-		variant="outline"
+		:variant="isCompleted(item) ? 'link' : 'outline'"
 		square
 		@click="toggleStatus(item)"
 	/>

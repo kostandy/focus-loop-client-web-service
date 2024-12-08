@@ -99,10 +99,10 @@ const displayConfirmSlideover = (id: Task['id']) => {
 			/>
 
 			<small>
-				<template v-if="isNotStarted(item)"> Ready to begin </template>
-				<template v-else-if="isInProgress(item)"> In progress... </template>
-				<template v-else-if="isCompleted(item)"> Completed </template>
-				<template v-else> Something went wrong... </template>
+				<template v-if="isNotStarted(item)">Ready to begin</template>
+				<template v-else-if="isInProgress(item)">In progress...</template>
+				<template v-else-if="isCompleted(item)">Completed</template>
+				<template v-else>Something went wrong...</template>
 			</small>
 		</div>
 	</div>

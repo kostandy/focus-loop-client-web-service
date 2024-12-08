@@ -55,9 +55,23 @@ defineExpose({ state });
 	>
 		<UInput
 			v-model="state.title"
-			placeholder="Enter the title for a task"
+			placeholder="Enter a title for a new task"
 			autofocus
-		/>
+			autocomplete="off"
+			class="mt-2"
+			:ui="{ icon: { trailing: { pointer: '' } } }"
+		>
+			<template #trailing>
+				<UButton
+					v-show="state.title !== ''"
+					color="gray"
+					variant="link"
+					icon="i-heroicons-x-mark-20-solid"
+					:padded="false"
+					@click="state.title = ''"
+				/>
+			</template>
+		</UInput>
 	</UFormGroup>
 
 	<UButton

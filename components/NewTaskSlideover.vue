@@ -23,17 +23,6 @@ defineShortcuts({
 		handler: closeDialog,
 	},
 });
-
-const clicks = ref(0);
-const isDebugSectionVisible = ref(false);
-const simpleInputValue = ref('');
-const displayDebugSection = () => {
-	clicks.value++;
-
-	if (clicks.value === 5) {
-		isDebugSectionVisible.value = true;
-	}
-};
 </script>
 
 <template>
@@ -55,10 +44,7 @@ const displayDebugSection = () => {
 			</div>
 		</template>
 
-		<div
-			class="flex justify-center py-4 mb-4"
-			@click="displayDebugSection"
-		>
+		<div class="flex justify-center">
 			<DotLottieVue
 				style="height: 170px; width: 170px"
 				autoplay
@@ -67,13 +53,6 @@ const displayDebugSection = () => {
 			/>
 		</div>
 
-		<div
-			v-if="isDebugSectionVisible"
-			class="flex flex-col mb-4 w-full"
-		>
-			<small class="mb-2">value: {{ simpleInputValue }}</small>
-			<UInput v-model="simpleInputValue" />
-		</div>
 		<TaskForm @submit="submitForm" />
 	</UCard>
 </USlideover>

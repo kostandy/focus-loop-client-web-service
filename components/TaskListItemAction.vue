@@ -18,7 +18,7 @@ const {
 
 <template>
 <div
-	class="flex flex-col justify-center items-center w-28 h-full p-6 bg-amber-500 hover:bg-amber-600 transition duration-500 cursor-pointer"
+	class="flex flex-col justify-center items-center w-28 h-full p-6 transition duration-500 cursor-pointer"
 	:class="[`bg-${color}-${shade}`, `hover:bg-${color}-${shadeHover}`]"
 	v-bind="{ onClick }"
 >
@@ -26,7 +26,7 @@ const {
 		<UIcon
 			:name="icon"
 			size="xl"
-			class="mb-2 stroke-4"
+			class="mb-2"
 		/>
 		<span :class="textClasses">{{ label }}</span>
 	</div>

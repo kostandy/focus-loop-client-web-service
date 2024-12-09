@@ -26,3 +26,11 @@ export const throttle = <T extends (...args: any[]) => any>(
 		}
 	};
 };
+export const scrollToID = (targetId?: string) => {
+	if (!targetId) return document.getElementById('__nuxt')!.scrollIntoView({ behavior: 'smooth' });
+
+	const targetElement = document.getElementById(targetId);
+	if (targetElement) {
+		targetElement.scrollIntoView({ behavior: 'smooth' });
+	}
+};

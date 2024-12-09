@@ -52,7 +52,9 @@ const launchConfetti = () => {
 const updateTask = (newTask: Task) => {
 	taskStore.updateStatusWithDates(newTask.id, newTask.status);
 
-	if (newTask.status === TaskStatuses.completed) {
+	if (newTask.status === TaskStatuses.inProgress) {
+		scrollToID();
+	} else if (newTask.status === TaskStatuses.completed) {
 		taskCompletitionSound?.value?.play();
 		launchConfetti();
 	}
@@ -128,7 +130,7 @@ const updateTask = (newTask: Task) => {
 				<UDivider
 					label="🟢 Focus Now"
 					size="lg"
-					class="my-6 px-4"
+					class="my-6 px-4 scroll-mt-4"
 				/>
 
 				<TaskList
@@ -154,9 +156,11 @@ const updateTask = (newTask: Task) => {
 
 			<template v-if="taskStore.getCompletedTasks.length">
 				<UDivider
+					id="divider--completed"
 					:label="`✅ Done & Dusted (${taskStore.getCompletedTasks.length})`"
 					size="lg"
-					class="my-6 px-4"
+					class="sticky bottom-0 py-3 my-3 px-4 scroll-mt-24 opacity-75 hover:cursor-pointer hover:opacity-100 motion-safe:transition-opacity"
+					@click="scrollToID('divider--completed')"
 				/>
 
 				<TaskList

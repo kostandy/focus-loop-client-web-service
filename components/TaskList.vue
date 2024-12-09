@@ -22,19 +22,19 @@ const UProgressColor = computed(() => (item: Task) => {
 	return 'sky';
 });
 
-const toggleActionIcon = computed(() => (item: Task) => {
-	const iconMap: Record<TaskStatuses, string> = {
+const actionIcon = computed(() => (item: Task) => {
+	const iconMap: Record<TaskStatuses, string | undefined> = {
 		[TaskStatuses.notStarted]: 'play',
-		[TaskStatuses.inProgress]: 'stop',
+		[TaskStatuses.inProgress]: 'hand-thumb-up-20-solid',
 		[TaskStatuses.completed]: 'check-20-solid',
 	};
 	return `i-heroicons-${iconMap[item.status as TaskStatuses]}`;
 });
 
-const toggleActionIconColor = computed(() => (item: Task) => (isCompleted(item) ? 'emerald' : 'blue'));
+const actionColor = computed(() => (item: Task) => (isInProgress(item) ? 'sky' : 'emerald'));
 
-const toggleStatus = (item: Task) => {
-	const newStatus = isNotStarted(item) ? TaskStatuses.inProgress : TaskStatuses.completed;
+const toggleStatus = (item: Task, status?: TaskStatuses) => {
+	const newStatus = status || (isNotStarted(item) ? TaskStatuses.inProgress : TaskStatuses.completed);
 	const newItem = { ...item, status: newStatus };
 	emit('updateItem', newItem);
 };
@@ -60,23 +60,33 @@ const displayConfirmSlideover = (id: Task['id']) => {
 	v-for="item in items"
 	:key="item.id"
 	:task="item"
-	class="mb-8 scale-95 transition-transform"
+	class="mb-8 scale-95 transition-transform duration-500"
 	:class="{
 		'scale-100 shadow-xl z-50': isInProgress(item),
 	}"
 	@swiped="displayConfirmSlideover(item.id)"
 	@remove="displayConfirmSlideover(item.id)"
 >
-	<UButton
-		:icon="toggleActionIcon(item)"
-		:color="toggleActionIconColor(item)"
-		:disabled="isCompleted(item)"
-		:size="isCompleted(item) ? 'xl' : 'lg'"
-		class="mr-4 z-20"
-		:variant="isCompleted(item) ? 'link' : 'outline'"
-		square
+	<div
+		class="flex flex-col items-center mr-6 z-20 cursor-pointer"
+		:class="{ 'motion-safe:animate-pulse': isNotStarted(item) || isInProgress(item) }"
 		@click="toggleStatus(item)"
-	/>
+	>
+		<UButton
+			:icon="actionIcon(item)"
+			:color="actionColor(item)"
+			:disabled="isCompleted(item)"
+			class="rounded-lg"
+			variant="link"
+			size="xl"
+			square
+			@click.prevent
+		/>
+		<small :class="`text-${actionColor(item)}-500`">
+			<template v-if="isNotStarted(item)"> Start </template>
+			<template v-else-if="isInProgress(item)"> Finish </template>
+		</small>
+	</div>
 
 	<div class="relative w-full overflow-hidden z-10">
 		<p class="text-lg capitalize font-bold break-normal">
@@ -84,13 +94,13 @@ const displayConfirmSlideover = (id: Task['id']) => {
 		</p>
 
 		<UProgress
-			class="my-2 pr-8"
+			class="my-2"
 			:value="100"
 			:color="UProgressColor(item)"
 			size="sm"
 		/>
 
-		<div class="flex items-center">
+		<div class="flex items-center justify-between">
 			<UBadge
 				variant="soft"
 				:color="UProgressColor(item)"
@@ -102,7 +112,7 @@ const displayConfirmSlideover = (id: Task['id']) => {
 					<UIcon
 						name="i-heroicons-sparkles-20-solid"
 						color="text-yellow"
-						class="mr-1"
+						class="mr-2"
 					/>
 					In progress...
 				</template>
@@ -113,6 +123,16 @@ const displayConfirmSlideover = (id: Task['id']) => {
 					Something went wrong...
 				</template>
 			</UBadge>
+
+			<UButton
+				v-if="isInProgress(item)"
+				variant="ghost"
+				color="sky"
+				label="Cancel"
+				class="opacity-50 hover:opacity-100 transition-opacity"
+				:padded="false"
+				@click="toggleStatus(item, TaskStatuses.notStarted)"
+			/>
 		</div>
 	</div>
 </TaskListItemSwipeable>

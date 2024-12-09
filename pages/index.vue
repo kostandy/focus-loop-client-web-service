@@ -121,7 +121,7 @@ const updateTask = (newTask: Task) => {
 		<template v-else>
 			<Transition>
 				<div
-					v-if="taskStore.hasActiveTask"
+					v-show="taskStore.hasActiveTask"
 					class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30"
 				/>
 			</Transition>

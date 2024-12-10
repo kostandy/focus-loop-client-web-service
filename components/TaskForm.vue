@@ -24,10 +24,6 @@ const state = reactive<Task>({
 
 const isValid = computed(() => validate(state).length === 0);
 
-// Workaround for Safari on IOS when autofocus doesn't work automatically
-const formInput = useTemplateRef<InstanceType<typeof UInput> | null>('form__input');
-onMounted(() => formInput.value!.$el.focus());
-
 const submitState = async () => {
 	if (isValid.value) {
 		state.title = state.title.trim();
@@ -59,12 +55,11 @@ defineExpose({ state });
 		eager-validation
 	>
 		<UInput
-			ref="form__input"
 			v-model="state.title"
 			placeholder="Enter a title for a new task"
 			autofocus
 			autocomplete="off"
-			class="mt-2"
+			class="mt-2 focus:scroll-mt-6"
 			:ui="{ icon: { trailing: { pointer: '' } } }"
 		>
 			<template #trailing>

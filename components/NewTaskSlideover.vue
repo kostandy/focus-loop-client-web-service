@@ -16,6 +16,14 @@ const emit = defineEmits<{
 const closeDialog = () => emit('close');
 const submitForm = (payload: Task) => emit('success', payload);
 
+watch(props.isVisible, (visible) => {
+	if (visible) {
+		document.body.classList.add('overflow-hidden');
+	} else {
+		document.body.classList.remove('overflow-hidden');
+	}
+});
+
 defineShortcuts({
 	escape: {
 		usingInput: true,
@@ -30,7 +38,7 @@ defineShortcuts({
 <USlideover
 	:model-value="isVisible.value"
 	side="bottom"
-	:ui="{ base: 'rounded-t-3xl duration-500 overflow-hidden', height: '' }"
+	:ui="{ base: 'rounded-t-3xl duration-500 overflow-hidden h-auto', height: '' }"
 >
 	<UCard
 		:ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"

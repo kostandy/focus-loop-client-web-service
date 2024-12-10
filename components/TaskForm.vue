@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { z } from 'zod';
 import type { FormError } from '#ui/types';
+import type { UInput } from '#build/components';
 
 const emit = defineEmits<{
 	(e: 'submit', payload: Task): void;
@@ -22,6 +23,10 @@ const state = reactive<Task>({
 });
 
 const isValid = computed(() => validate(state).length === 0);
+
+// Workaround for Safari on IOS when autofocus doesn't work automatically
+const formInput = useTemplateRef<InstanceType<typeof UInput> | null>('form__input');
+onMounted(() => formInput.value!.$el.focus());
 
 const submitState = async () => {
 	if (isValid.value) {
@@ -54,6 +59,7 @@ defineExpose({ state });
 		eager-validation
 	>
 		<UInput
+			ref="form__input"
 			v-model="state.title"
 			placeholder="Enter a title for a new task"
 			autofocus

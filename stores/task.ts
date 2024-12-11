@@ -1,3 +1,4 @@
+// TODO: Refactor, move out to the @types/tasks.ts
 export enum TaskStatuses {
 	notStarted = 'not_started',
 	inProgress = 'in_progress',
@@ -33,6 +34,7 @@ export const useTaskStore = defineStore('taskStore', {
 		isLoading: false,
 		fetchError: '',
 	}),
+
 	getters: {
 		getTaskById:
 			({ tasks }: taskState) =>
@@ -66,6 +68,7 @@ export const useTaskStore = defineStore('taskStore', {
 			return [...inProgress, ...notStarted, ...completed];
 		},
 	},
+
 	actions: {
 		async fetch() {
 			try {

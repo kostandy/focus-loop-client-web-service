@@ -67,7 +67,7 @@ const updateTask = (newTask: Task) => {
 	class="select-none"
 	:class="{ 'overflow-hidden': taskStore.hasActiveTask }"
 >
-	<div class="flex items-end justify-between my-4">
+	<div class="flex items-end justify-between my-4 px-3">
 		<UButton
 			:to="donationLink"
 			label="Donate 1 TON"
@@ -159,7 +159,7 @@ const updateTask = (newTask: Task) => {
 					id="divider--completed"
 					:label="`✅ Done & Dusted (${taskStore.getCompletedTasks.length})`"
 					size="lg"
-					class="sticky bottom-0 py-3 my-3 px-4 scroll-mt-24 opacity-75 hover:cursor-pointer hover:opacity-100 motion-safe:transition-opacity"
+					class="sticky bottom-0 py-3 my-3 px-4 scroll-mt-24 opacity-75 hover:cursor-pointer hover:opacity-100 motion-safe:transition-opacity z-20"
 					@click="scrollToID('divider--completed')"
 				/>
 

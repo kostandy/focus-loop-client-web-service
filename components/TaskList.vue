@@ -2,7 +2,6 @@
 import { TaskStatuses, type Task } from '@/stores/task.js';
 
 import ConfirmSlideover from './ConfirmSlideover.vue';
-import type TaskListItemSwipeable from './TaskListItemSwipeable.vue';
 
 const props = defineProps<{
 	items: Task[];

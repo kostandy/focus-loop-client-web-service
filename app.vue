@@ -1,7 +1,12 @@
 <script setup lang="ts">
 useHead({
 	title: 'Focus Loop',
+	htmlAttrs: { lang: 'en' },
 	meta: [
+		{
+			name: 'description',
+			content: 'Empowering your productivity and efficiency with the Focus Loop tool',
+		},
 		{
 			name: 'viewport',
 			content: 'width=device-width, initial-scale=1.0, user-scalable=no',

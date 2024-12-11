@@ -2,16 +2,24 @@
 import confetti from 'canvas-confetti';
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
 
-import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 import { AUDIO_PATHS } from '~/constants/audioConstants';
 import { DONATION_LINK } from '~/constants/linkConstants';
+import SettingsSlideover from '~/components/Settings/SettingsSlideover.vue';
+import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 
 const taskStore = useTaskStore();
 
 await callOnce(taskStore.fetch);
 
-const newTaskSlideover = useSlideover();
+const settingsSlideover = useSlideover();
+const closeSettingsSlideover = () => settingsSlideover.close();
+const openSettingsSlideover = () =>
+	newTaskSlideover.open(SettingsSlideover, {
+		isVisible: newTaskSlideover.isOpen,
+		onClose: closeSettingsSlideover,
+	});
 
+const newTaskSlideover = useSlideover();
 const closeNewTaskSlideover = () => newTaskSlideover.close();
 const openNewTaskSlideover = () =>
 	newTaskSlideover.open(NewTaskSlideover, {
@@ -83,7 +91,7 @@ const updateTask = (newTask: Task) => {
 		<UButton
 			icon="i-heroicons-cog-6-tooth"
 			variant="ghost"
-			disabled
+			@click="openSettingsSlideover"
 		/>
 	</div>
 

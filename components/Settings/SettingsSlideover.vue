@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSettingsUI } from '~/composables/useSettingsUI';
+import { useSettingsUI } from '~/composables/useSettings';
 
 defineProps<{
 	isVisible: Ref<boolean>;
@@ -16,6 +16,7 @@ const close = () => emit('close');
 
 <template>
 <USlideover
+	key="settings"
 	:model-value="isVisible.value"
 	:ui="{
 		width: 'max-w-full',

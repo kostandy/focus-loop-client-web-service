@@ -34,3 +34,15 @@ export const scrollToID = (targetId?: string) => {
 		targetElement.scrollIntoView({ behavior: 'smooth' });
 	}
 };
+
+export const saveToLocalStorage = (storageKey: string, data: unknown) => {
+	localStorage.setItem(storageKey, JSON.stringify(data));
+};
+
+export const loadFromLocalStorage = (storageKey: string) => {
+	const data = localStorage.getItem(storageKey);
+
+	if (data) {
+		return JSON.parse(data);
+	}
+};

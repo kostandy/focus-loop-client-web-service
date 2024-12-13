@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// TODO: Replace Dialog component to the Slideover component
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
 
 export interface Props {

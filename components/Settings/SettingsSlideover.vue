@@ -25,10 +25,18 @@ const close = () => emit('close');
 >
 	<UCard
 		:ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
-		class="px-2"
+		class="px-4"
 	>
 		<template #header>
 			<div class="flex items-center justify-between">
+				<UButton
+					color="gray"
+					variant="link"
+					size="md"
+					icon="i-heroicons-arrow-left-solid"
+					@click="close"
+				/>
+
 				<h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
 					Settings
 				</h3>

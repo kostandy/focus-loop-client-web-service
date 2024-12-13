@@ -3,9 +3,11 @@ import confetti from 'canvas-confetti';
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
 
 import { AUDIO_PATHS } from '~/constants/audioConstants';
-import { DONATION_LINK } from '~/constants/linkConstants';
 import SettingsSlideover from '~/components/Settings/SettingsSlideover.vue';
 import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
+
+// Debug
+localStorage.removeItem('user-settings');
 
 const settingsStore = useSettingsStore();
 const taskStore = useTaskStore();
@@ -33,7 +35,6 @@ const openNewTaskSlideover = () =>
 
 const { audio: taskCreationSound } = useAudio(AUDIO_PATHS.TASK_CREATION_SUCCESS);
 const { audio: taskCompletitionSound } = useAudio(AUDIO_PATHS.TASK_COMPLETION_SUCCESS);
-const donationLink = ref(DONATION_LINK);
 
 const submitForm = async (newTask: Task) => {
 	try {
@@ -69,6 +70,14 @@ const updateTask = (newTask: Task) => {
 		launchConfetti();
 	}
 };
+
+const time = ref(Date.now());
+setInterval(() => (time.value = Date.now()), 1000);
+
+const formattedTime = computed(() => {
+	const date = new Date(time.value);
+	return date.toLocaleTimeString();
+});
 </script>
 
 <template>
@@ -77,18 +86,8 @@ const updateTask = (newTask: Task) => {
 	class="select-none"
 	:class="{ 'overflow-hidden': taskStore.hasActiveTask }"
 >
-	<div class="flex items-end justify-between my-4 px-3">
-		<UButton
-			:to="donationLink"
-			label="Donate 1 TON"
-			class="flex w-auto"
-			target="_blank"
-			leading-icon="i-heroicons-heart"
-			size="md"
-			variant="link"
-			external
-			block
-		/>
+	<div class="flex items-center justify-between my-4 px-3">
+		<b class="flex justify-self-center">{{ formattedTime }}</b>
 
 		<UButton
 			icon="i-heroicons-cog-6-tooth"
@@ -138,7 +137,7 @@ const updateTask = (newTask: Task) => {
 
 			<template v-if="!!taskStore.getActiveTask">
 				<UDivider
-					label="🟢 Focus Now"
+					label="��� Focus Now"
 					size="lg"
 					class="my-6 px-4 scroll-mt-4"
 				/>

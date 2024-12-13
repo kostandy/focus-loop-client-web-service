@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useSettingsUI } from '~/composables/useSettings';
+import { DONATION_LINK, DONATION_WALLET } from '~/constants/linkConstants';
 
 defineProps<{
 	isVisible: Ref<boolean>;
@@ -9,9 +10,19 @@ const emit = defineEmits<{
 	(e: 'close'): void;
 }>();
 
+const donationLink = DONATION_LINK;
 const { settings, handleItemClick } = useSettingsUI();
 
 const close = () => emit('close');
+const toast = useToast();
+const copyWallet = async () => {
+	try {
+		await navigator.clipboard.writeText(DONATION_WALLET);
+		toast.add({ id: 'copy_success', title: 'Wallet copied successfully!', color: 'emerald' });
+	} catch (error) {
+		console.error('Failed to copy text: ', error);
+	}
+};
 </script>
 
 <template>
@@ -24,7 +35,14 @@ const close = () => emit('close');
 	}"
 >
 	<UCard
-		:ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+		:ui="{
+			ring: '',
+			divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+			shadow: 'shadow-none',
+			footer: {
+				base: 'flex flex-col items-center',
+			},
+		}"
 		class="px-4"
 	>
 		<template #header>
@@ -57,6 +75,34 @@ const close = () => emit('close');
 				@item-click="handleItemClick"
 			/>
 		</div>
+
+		<template #footer>
+			<div class="flex items-center justify-center">
+				Made with
+				<UIcon
+					name="i-heroicons-heart"
+					class="mx-1"
+				/>
+				for people
+			</div>
+
+			<UButton
+				:to="donationLink"
+				label="Donate using link"
+				trailing-icon="i-heroicons-arrow-top-right-on-square-16-solid"
+				size="md"
+				variant="link"
+				external
+			/>
+
+			<UButton
+				label="Press to copy wallet"
+				trailing-icon="i-heroicons-clipboard-document"
+				size="md"
+				variant="soft"
+				@click="copyWallet"
+			/>
+		</template>
 	</UCard>
 </USlideover>
 </template>

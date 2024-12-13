@@ -53,4 +53,5 @@ useHead({
 	<NuxtPage />
 </NuxtLayout>
 <USlideovers />
+<UNotifications />
 </template>

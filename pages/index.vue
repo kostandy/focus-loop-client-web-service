@@ -29,8 +29,8 @@ const openNewTaskSlideover = () =>
 		onClose: closeNewTaskSlideover,
 	});
 
-const taskCreationSound: Ref<HTMLAudioElement | null> = ref(loadAudio(AUDIO_PATHS.TASK_CREATION_SUCCESS));
-const taskCompletitionSound: Ref<HTMLAudioElement | null> = ref(loadAudio(AUDIO_PATHS.TASK_COMPLETION_SUCCESS));
+const { audio: taskCreationSound } = useAudio(AUDIO_PATHS.TASK_CREATION_SUCCESS);
+const { audio: taskCompletitionSound } = useAudio(AUDIO_PATHS.TASK_COMPLETION_SUCCESS);
 const donationLink = ref(DONATION_LINK);
 
 const submitForm = async (newTask: Task) => {

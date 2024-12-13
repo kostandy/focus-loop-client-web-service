@@ -1,7 +1,6 @@
 <script lang="ts" setup>
+import ConfirmSlideover from '@/components/ConfirmSlideover.vue';
 import { TaskStatuses, type Task } from '@/stores/task.js';
-
-import ConfirmSlideover from './ConfirmSlideover.vue';
 
 const props = defineProps<{
 	items: Task[];
@@ -31,6 +30,11 @@ const actionIcon = computed(() => (item: Task) => {
 });
 
 const actionColor = computed(() => (item: Task) => (isInProgress(item) ? 'sky' : 'emerald'));
+
+const isReduceMotionEnabled = useSettings('reduce_motion');
+const isActionAnimated = computed(
+	() => (item: Task) => (isNotStarted(item) || isInProgress(item)) && !isReduceMotionEnabled,
+);
 
 const toggleStatus = (item: Task, status?: TaskStatuses) => {
 	const newStatus = status || (isNotStarted(item) ? TaskStatuses.inProgress : TaskStatuses.completed);
@@ -68,7 +72,7 @@ const displayConfirmSlideover = (id: Task['id']) => {
 >
 	<div
 		class="flex flex-col items-center mr-6 z-20 cursor-pointer"
-		:class="{ 'motion-safe:animate-pulse': isNotStarted(item) || isInProgress(item) }"
+		:class="{ 'motion-safe:animate-pulse': isActionAnimated(item) }"
 		@click="toggleStatus(item)"
 	>
 		<UButton

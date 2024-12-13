@@ -7,8 +7,10 @@ import { DONATION_LINK } from '~/constants/linkConstants';
 import SettingsSlideover from '~/components/Settings/SettingsSlideover.vue';
 import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 
+const settingsStore = useSettingsStore();
 const taskStore = useTaskStore();
 
+await callOnce(settingsStore.fetch);
 await callOnce(taskStore.fetch);
 
 const settingsSlideover = useSlideover();

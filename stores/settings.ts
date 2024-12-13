@@ -30,7 +30,7 @@ export const useSettingsStore = defineStore('settingsStore', {
 			}));
 		},
 
-		fetchSettings(): UserSetting[] {
+		fetch(): UserSetting[] {
 			// Simulated fetching (commented out actual API call)
 			// const response = await fetch('/api/settings');
 			// this.settings = await response.json();

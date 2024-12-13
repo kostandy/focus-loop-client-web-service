@@ -7,10 +7,9 @@ export const useSettings = (id: Setting['id']) => {
 
 export const useSettingsUI = () => {
 	const settingsStore = useSettingsStore();
-
 	const settings = computed(() => settingsStore.enrichedSettings);
 
-	onBeforeMount(() => settingsStore.fetchSettings());
+	onBeforeMount(() => settingsStore.fetch());
 
 	const handleItemClick = (id: Setting['id']) => {
 		// Example: Handle navigation or specific item actions

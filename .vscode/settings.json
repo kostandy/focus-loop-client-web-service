@@ -1,6 +1,4 @@
 {
-	// "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-	// "editor.formatOnSave": true,
 	"editor.formatOnSaveMode": "file",
 	"editor.formatOnType": false,
 	"editor.quickSuggestions": {
@@ -23,6 +21,10 @@
 	"nuxtr.vueFiles.style.alwaysScoped": true,
 	"nuxtr.vueFiles.style.defaultLanguage": "css",
 	"nuxtr.vueFiles.template.defaultLanguage": "html",
+	"tailwindCSS.classAttributes": [
+		"class",
+		"ui"
+	],
 	"tailwindCSS.emmetCompletions": true,
 	"tailwindCSS.validate": true,
 	"tsimporter.filesToExclude": ["node_modules", ".git"],

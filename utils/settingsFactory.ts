@@ -24,6 +24,7 @@ export const settingsMetadata: { [id in SettingsID]: UISetting } = {
 		iconBackgroundColor: 'sky',
 		label: 'Use Eisenhower Matrix',
 		hasToggle: true,
+		disabled: true,
 	}),
 	reduce_motion: createUISetting({
 		icon: 'i-heroicons-play-pause-16-solid',
@@ -31,6 +32,7 @@ export const settingsMetadata: { [id in SettingsID]: UISetting } = {
 		hasToggle: true,
 		defaultValue: window.matchMedia('(prefers-reduced-motion: reduce)').matches || false,
 		iconBackgroundColor: 'blue',
+		disabled: true,
 	}),
 	sounds: createUISetting({
 		icon: 'i-heroicons-speaker-wave-solid',

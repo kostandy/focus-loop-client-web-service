@@ -21,7 +21,7 @@ const createUISetting = ({
 export const settingsMetadata: { [id in SettingsID]: UISetting } = {
 	eisenhower_matrix: createUISetting({
 		icon: 'i-heroicons-rectangle-stack-16-solid',
-		iconBackgroundColor: 'sky',
+		iconBackgroundColor: 'rose',
 		label: 'Use Eisenhower Matrix',
 		hasToggle: true,
 		disabled: true,
@@ -31,7 +31,7 @@ export const settingsMetadata: { [id in SettingsID]: UISetting } = {
 		label: 'Reduce Motion',
 		hasToggle: true,
 		defaultValue: window.matchMedia('(prefers-reduced-motion: reduce)').matches || false,
-		iconBackgroundColor: 'blue',
+		iconBackgroundColor: 'sky',
 		disabled: true,
 	}),
 	sounds: createUISetting({

@@ -14,6 +14,12 @@ export default defineAppConfig({
 		},
 		container: {
 			constrained: 'max-w-2xl',
+			padding: 'px-2 sm:px-4',
+		},
+		slideover: {
+			default: {
+				padding: 'pa-1',
+			},
 		},
 	},
 });

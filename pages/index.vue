@@ -87,7 +87,10 @@ const formattedTime = computed(() => {
 	:class="{ 'overflow-hidden': taskStore.hasActiveTask }"
 >
 	<div class="flex items-center justify-between my-4 px-3">
-		<b class="flex justify-self-center">{{ formattedTime }}</b>
+		<time
+			class="flex text-xl"
+			:datetime="formattedTime"
+		>{{ formattedTime }}</time>
 
 		<UButton
 			icon="i-heroicons-cog-6-tooth"

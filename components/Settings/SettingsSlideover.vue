@@ -40,10 +40,10 @@ const copyWallet = async () => {
 			divide: 'divide-y divide-gray-100 dark:divide-gray-800',
 			shadow: 'shadow-none',
 			footer: {
-				base: 'flex flex-col items-center',
+				base: 'flex flex-col items-center self-end',
 			},
 		}"
-		class="px-4"
+		class="px-2"
 	>
 		<template #header>
 			<div class="flex items-center justify-between">
@@ -81,7 +81,7 @@ const copyWallet = async () => {
 				Made with
 				<UIcon
 					name="i-heroicons-heart"
-					class="mx-1"
+					class="mx-1 bg-rose-500"
 				/>
 				for people
 			</div>
@@ -91,6 +91,7 @@ const copyWallet = async () => {
 				label="Donate using link"
 				trailing-icon="i-heroicons-arrow-top-right-on-square-16-solid"
 				size="md"
+				class="my-2"
 				variant="link"
 				external
 			/>
@@ -99,7 +100,7 @@ const copyWallet = async () => {
 				label="Press to copy wallet"
 				trailing-icon="i-heroicons-clipboard-document"
 				size="md"
-				variant="soft"
+				variant="ghost"
 				@click="copyWallet"
 			/>
 		</template>

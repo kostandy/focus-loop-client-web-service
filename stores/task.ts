@@ -106,23 +106,19 @@ export const useTaskStore = defineStore('taskStore', {
 		add(newTask: Task) {
 			// For local tasks adding
 			this.tasks = [newTask, ...this.tasks];
-			// Save tasks to LocalStorage
-			localStorage.setItem(STORE_NAME, JSON.stringify(this.tasks));
+			saveToLocalStorage(STORE_NAME, this.tasks);
 		},
 		update(id: Task['id'], newTask: Task) {
 			const index = this.tasks.findIndex((task) => task.id === id);
 
 			if (index !== -1) {
 				this.tasks[index] = newTask;
-				// Save updated tasks to LocalStorage
-				localStorage.setItem(STORE_NAME, JSON.stringify(this.tasks));
+				saveToLocalStorage(STORE_NAME, this.tasks);
 			}
 		},
 		remove(id: Task['id']) {
-			// Filter out the task to be removed and update tasks and localStorage in one operation
 			this.tasks = this.tasks.filter((task) => task.id !== id);
-			// Save updated tasks to LocalStorage
-			localStorage.setItem(STORE_NAME, JSON.stringify(this.tasks));
+			saveToLocalStorage(STORE_NAME, this.tasks);
 		},
 		updateStatusWithDates(id: Task['id'], newStatus: TaskStatuses) {
 			const task = this.getTaskById(id);

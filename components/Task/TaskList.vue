@@ -92,7 +92,7 @@ const displayConfirmSlideover = (id: Task['id']) => {
 	</div>
 
 	<div class="relative w-full overflow-hidden z-10">
-		<p class="text-lg capitalize font-bold break-normal">
+		<p class="text-lg normal-case font-bold break-normal">
 			{{ item.title }}
 		</p>
 

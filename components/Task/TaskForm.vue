@@ -51,15 +51,14 @@ defineExpose({ state });
 	<UFormGroup
 		label="Title"
 		name="title"
-		description="Try to keep it simple"
-		eager-validation
+		class="mb-2"
+		help="Keep it simple and clear"
 	>
 		<UInput
 			v-model="state.title"
 			placeholder="Enter a title for a new task"
 			autofocus
-			autocomplete="off"
-			class="mt-2 focus:scroll-mt-6"
+			class="mt-2"
 			:ui="{ icon: { trailing: { pointer: '' } } }"
 		>
 			<template #trailing>

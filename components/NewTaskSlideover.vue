@@ -29,7 +29,7 @@ defineShortcuts({
 <USlideover
 	:model-value="isVisible.value"
 	side="bottom"
-	:ui="{ base: 'rounded-t-3xl duration-500 overflow-hidden h-auto', height: '' }"
+	:ui="{ base: 'rounded-t-3xl duration-500 overflow-hidden', height: 'h-auto max-h-dvh' }"
 >
 	<UCard
 		:ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"

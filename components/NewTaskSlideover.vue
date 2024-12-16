@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
 import type { Task } from '@/@types/tasks';
 
 export interface Props {
@@ -44,13 +43,8 @@ defineShortcuts({
 			</div>
 		</template>
 
-		<div class="flex justify-center">
-			<DotLottieVue
-				style="height: 170px; width: 170px"
-				autoplay
-				loop
-				src="/animations/drawing-duck.json"
-			/>
+		<div class="flex justify-center text-8xl">
+			📝
 		</div>
 
 		<TaskForm @submit="submitForm" />

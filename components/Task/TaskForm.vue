@@ -55,7 +55,7 @@ defineExpose({ state });
 	<UFormGroup
 		label="Title"
 		name="title"
-		class="mb-2"
+		class="mb-4"
 		help="Keep it simple and clear"
 	>
 		<UInput
@@ -78,23 +78,24 @@ defineExpose({ state });
 		</UInput>
 	</UFormGroup>
 
-	<div class="grid grid-cols-2">
-		<UCheckbox
-			v-model="state.isUrgent"
-			label="Urgent"
-			help="Needs immediate attention"
-		/>
+	<div class="my-4">
+		<div class="grid grid-cols-2">
+			<UCheckbox
+				v-model="state.isUrgent"
+				label="⚠️ Urgent"
+			/>
 
-		<UCheckbox
-			v-model="state.isImportant"
-			label="Important"
-			help="High priority, but not time-sensitive"
-		/>
+			<UCheckbox
+				v-model="state.isImportant"
+				label="⭐️ Important"
+			/>
+		</div>
 	</div>
 
 	<UButton
 		label="Add"
 		type="submit"
+		color="indigo"
 		:disabled="!isValid"
 		block
 	/>

@@ -55,3 +55,10 @@ useHead({
 <USlideovers />
 <UNotifications />
 </template>
+
+<style>
+html,
+body {
+	@apply bg-gray-950;
+}
+</style>

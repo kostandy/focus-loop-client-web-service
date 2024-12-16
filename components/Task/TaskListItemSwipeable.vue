@@ -147,7 +147,7 @@ const endSwipe = () => {
 
 	<div
 		ref="foregroundContainer"
-		class="relative w-full h-full flex items-center p-6 z-10 bg-slate-900 will-change-transform transform-gpu duration-500 ring-2 ring-gray-200 stroke-2 dark:ring-gray-800 select-none cursor-grab active:cursor-grabbing"
+		class="relative w-full h-full flex items-center p-6 z-10 bg-gray-800 duration-500 ring-2 ring-gray-200 stroke-2 dark:ring-gray-800 select-none cursor-grab active:cursor-grabbing"
 		@pointerdown="startSwipe"
 		@pointermove="moveSwipe"
 		@pointerout="endSwipe"

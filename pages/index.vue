@@ -103,6 +103,10 @@ const links = reactive([
 			/>
 		</div>
 
+		<p class="text-8xl text-center mb-8">
+			🗃️
+		</p>
+
 		<UButton
 			label="Add a Task"
 			class="font-bold shadow-lg rounded-xl mb-4"
@@ -135,7 +139,7 @@ const links = reactive([
 
 	<div
 		v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError"
-		class="mx-4"
+		class="px-4"
 	>
 		<div
 			v-if="!taskStore.tasks.length"

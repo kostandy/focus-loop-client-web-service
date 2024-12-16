@@ -8,12 +8,27 @@ import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 
 import { type Task, TaskStatuses } from '../@types/tasks';
 
+// Store initialization
 const settingsStore = useSettingsStore();
 const taskStore = useTaskStore();
 
 await callOnce(settingsStore.fetch);
 await callOnce(taskStore.fetch);
 
+// Audio setup
+const { audio: taskCreationSound } = useAudio(AUDIO_PATHS.TASK_CREATION_SUCCESS);
+const { audio: taskCompletitionSound } = useAudio(AUDIO_PATHS.TASK_COMPLETION_SUCCESS);
+
+// Time handling
+const time = ref(Date.now());
+setInterval(() => (time.value = Date.now()), 1000);
+
+const formattedTime = computed(() => {
+	const date = new Date(time.value);
+	return date.toLocaleTimeString();
+});
+
+// Slideovers handling
 const settingsSlideover = useSlideover();
 const closeSettingsSlideover = () => settingsSlideover.close();
 const openSettingsSlideover = () =>
@@ -32,16 +47,11 @@ const openNewTaskSlideover = () =>
 		onClose: closeNewTaskSlideover,
 	});
 
-const { audio: taskCreationSound } = useAudio(AUDIO_PATHS.TASK_CREATION_SUCCESS);
-const { audio: taskCompletitionSound } = useAudio(AUDIO_PATHS.TASK_COMPLETION_SUCCESS);
-
+// Task management functions
 const submitForm = async (newTask: Task) => {
 	try {
 		taskStore.isLoading = true;
-
 		taskStore.add(newTask);
-
-		// Dophamine release ;)
 		taskCreationSound?.value?.play();
 	} catch (error) {
 		console.error(error);
@@ -51,6 +61,7 @@ const submitForm = async (newTask: Task) => {
 	}
 };
 
+// Celebration
 const launchConfetti = () => {
 	confetti({
 		particleCount: 100,
@@ -67,14 +78,6 @@ const updateTask = (newTask: Task) => {
 		launchConfetti();
 	}
 };
-
-const time = ref(Date.now());
-setInterval(() => (time.value = Date.now()), 1000);
-
-const formattedTime = computed(() => {
-	const date = new Date(time.value);
-	return date.toLocaleTimeString();
-});
 </script>
 
 <template>

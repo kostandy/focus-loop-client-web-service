@@ -11,6 +11,6 @@ export interface Task {
 	createdAt: string | Date;
 	startedAt: string | Date;
 	completedAt: string | Date;
-	isUrgent: boolean;
 	isImportant: boolean;
+	isUrgent: boolean;
 }

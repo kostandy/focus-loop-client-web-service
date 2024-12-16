@@ -21,5 +21,8 @@ export default defineAppConfig({
 				padding: 'pa-1',
 			},
 		},
+		notifications: {
+			position: 'top-0 bottom-[unset] end-[unset] start-50%',
+		},
 	},
 });

@@ -60,22 +60,21 @@ export const useTaskStore = defineStore('taskStore', {
 			try {
 				this.isLoading = true;
 
-				// Load tasks from LocalStorage
-				const storedTasks = localStorage.getItem(STORE_NAME);
-				const parsedTasks: Task[] = storedTasks
-					? JSON.parse(storedTasks).map(
-							(task: Task): Task => ({
-								...task,
-								// Ensure all fields are present, defaulting to appropriate values if missing
-								id: task.id || generateId(),
-								title: task.title || '',
-								createdAt: task.createdAt || new Date(),
-								status: task.status || TaskStatuses.notStarted,
-								startedAt: task.startedAt || '',
-								completedAt: task.completedAt || '',
-							}),
-						)
-					: [];
+				const storedTasks = loadFromLocalStorage(STORE_NAME);
+				const parsedTasks: Task[] = storedTasks.map(
+					(task: Task): Task => ({
+						...task,
+						// Ensure all fields are present, defaulting to appropriate values if missing
+						id: task.id || generateId(),
+						title: task.title || '',
+						createdAt: task.createdAt || new Date(),
+						status: task.status || TaskStatuses.notStarted,
+						startedAt: task.startedAt || '',
+						completedAt: task.completedAt || '',
+						isUrgent: task.isUrgent || false,
+						isImportant: task.isImportant || false,
+					}),
+				);
 				this.tasks = parsedTasks.sort((a, b) => (new Date(b.createdAt) > new Date(a.createdAt) ? 1 : -1));
 			} catch (error) {
 				this.fetchError = error as string;

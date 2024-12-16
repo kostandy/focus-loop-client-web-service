@@ -104,28 +104,48 @@ const displayConfirmSlideover = (id: Task['id']) => {
 		/>
 
 		<div class="flex items-center justify-between">
-			<UBadge
-				variant="soft"
-				:color="UProgressColor(item)"
-			>
-				<template v-if="isNotStarted(item)">
-					Ready to begin
-				</template>
-				<template v-else-if="isInProgress(item)">
-					<UIcon
-						name="i-heroicons-sparkles-20-solid"
-						color="text-yellow"
-						class="mr-2"
+			<div>
+				<UBadge
+					variant="soft"
+					:color="UProgressColor(item)"
+				>
+					<template v-if="isNotStarted(item)">
+						Ready to begin
+					</template>
+					<template v-else-if="isInProgress(item)">
+						<UIcon
+							name="i-heroicons-sparkles-20-solid"
+							color="text-yellow"
+							class="mr-2"
+						/>
+						In progress...
+					</template>
+					<template v-else-if="isCompleted(item)">
+						Completed
+					</template>
+					<template v-else>
+						Something went wrong...
+					</template>
+				</UBadge>
+
+				<template v-if="isNotStarted(item) || isInProgress(item)">
+					<UBadge
+						v-if="item.isUrgent"
+						variant="soft"
+						color="rose"
+						class="ml-2"
+						label="Urgent"
 					/>
-					In progress...
+
+					<UBadge
+						v-if="item.isImportant"
+						variant="soft"
+						color="amber"
+						class="ml-2"
+						label="Important"
+					/>
 				</template>
-				<template v-else-if="isCompleted(item)">
-					Completed
-				</template>
-				<template v-else>
-					Something went wrong...
-				</template>
-			</UBadge>
+			</div>
 
 			<UButton
 				v-if="isInProgress(item)"

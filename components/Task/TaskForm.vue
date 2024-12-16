@@ -11,6 +11,8 @@ const schema = z.object({
 	title: z.string({
 		required_error: 'The title is required',
 	}),
+	isUrgent: z.boolean(),
+	isImportant: z.boolean(),
 });
 
 const state = reactive<Task>({
@@ -20,6 +22,8 @@ const state = reactive<Task>({
 	status: TaskStatuses.notStarted,
 	startedAt: '',
 	completedAt: '',
+	isUrgent: false,
+	isImportant: false,
 });
 
 const isValid = computed(() => validate(state).length === 0);
@@ -73,6 +77,20 @@ defineExpose({ state });
 			</template>
 		</UInput>
 	</UFormGroup>
+
+	<div class="grid grid-cols-2">
+		<UCheckbox
+			v-model="state.isUrgent"
+			label="Urgent"
+			help="Needs immediate attention"
+		/>
+
+		<UCheckbox
+			v-model="state.isImportant"
+			label="Important"
+			help="High priority, but not time-sensitive"
+		/>
+	</div>
 
 	<UButton
 		label="Add"

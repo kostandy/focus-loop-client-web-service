@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
+import type { Task } from '@/@types/tasks';
 
 export interface Props {
 	isVisible: Ref<boolean>;

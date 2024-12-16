@@ -6,8 +6,7 @@ import { AUDIO_PATHS } from '~/constants/audioConstants';
 import SettingsSlideover from '~/components/Settings/SettingsSlideover.vue';
 import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 
-// Debug
-localStorage.removeItem('user-settings');
+import { type Task, TaskStatuses } from '../@types/tasks';
 
 const settingsStore = useSettingsStore();
 const taskStore = useTaskStore();

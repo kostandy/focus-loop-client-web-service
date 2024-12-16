@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from 'zod';
 import type { FormError } from '#ui/types';
-import type { UInput } from '#build/components';
+import { type Task, TaskStatuses } from '@/@types/tasks';
 
 const emit = defineEmits<{
 	(e: 'submit', payload: Task): void;

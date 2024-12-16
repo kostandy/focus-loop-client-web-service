@@ -1,18 +1,4 @@
-// TODO: Refactor, move out to the @types/tasks.ts
-export enum TaskStatuses {
-	notStarted = 'not_started',
-	inProgress = 'in_progress',
-	completed = 'completed',
-}
-
-export interface Task {
-	id: string;
-	title: string;
-	status: TaskStatuses;
-	createdAt: string | Date;
-	startedAt: string | Date;
-	completedAt: string | Date;
-}
+import { type Task, TaskStatuses } from '@/@types/tasks';
 
 export interface Response {
 	tasks?: Array<Task>;

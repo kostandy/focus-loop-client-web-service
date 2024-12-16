@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Task } from '@/stores/task.js';
+import type { Task } from '@/@types/tasks';
 
 defineProps<{
 	task: Task;

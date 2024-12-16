@@ -1,5 +1,7 @@
 import { USlideover } from '../.nuxt/components';
 <script lang="ts" setup>
+import type { Task } from '@/@types/tasks';
+
 defineProps<{ title: Task['title'] }>();
 const emit = defineEmits<{
 	(e: 'success' | 'close'): void;

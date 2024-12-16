@@ -1,4 +1,4 @@
-import type { AUDIO_PATHS } from '../constants/audioConstants';
+import type { AUDIO_PATHS } from '@/constants/audioConstants';
 
 export const useAudio = (path: (typeof AUDIO_PATHS)[keyof typeof AUDIO_PATHS]) => {
 	const isAudioAvailable = useSettings('sounds');

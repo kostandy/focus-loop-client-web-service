@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import ConfirmSlideover from '@/components/ConfirmSlideover.vue';
-import { TaskStatuses, type Task } from '@/stores/task.js';
+import { type Task, TaskStatuses } from '@/@types/tasks';
 
 const props = defineProps<{
 	items: Task[];

@@ -18,7 +18,7 @@ const {
 
 <template>
 <div
-	class="flex flex-col justify-center items-center w-28 h-full p-6 transition duration-500 cursor-pointer"
+	class="flex flex-col justify-center items-center w-24 sm:w-28 h-full p-4 sm:p-6 transition duration-500 cursor-pointer"
 	:class="[`bg-${color}-${shade}`, `hover:bg-${color}-${shadeHover}`]"
 	v-bind="{ onClick }"
 >

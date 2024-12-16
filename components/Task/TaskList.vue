@@ -1,14 +1,15 @@
 <script lang="ts" setup>
+import confetti from 'canvas-confetti';
 import ConfirmSlideover from '@/components/ConfirmSlideover.vue';
 import { type Task, TaskStatuses } from '@/@types/tasks';
+import { AUDIO_PATHS } from '@/constants/audioConstants';
 
 const props = defineProps<{
 	items: Task[];
 }>();
-const emit = defineEmits<{
-	(e: 'removeItem', payload: Task['id']): void;
-	(e: 'updateItem', payload: Task): void;
-}>();
+
+const taskStore = useTaskStore();
+const { audio: taskCompletitionSound } = useAudio(AUDIO_PATHS.TASK_COMPLETION_SUCCESS);
 
 const isNotStarted = ({ status }: Task) => status === TaskStatuses.notStarted;
 const isInProgress = ({ status }: Task) => status === TaskStatuses.inProgress;
@@ -36,13 +37,12 @@ const isActionAnimated = computed(
 	() => (item: Task) => (isNotStarted(item) || isInProgress(item)) && !isReduceMotionEnabled,
 );
 
-const toggleStatus = (item: Task, status?: TaskStatuses) => {
-	const newStatus = status || (isNotStarted(item) ? TaskStatuses.inProgress : TaskStatuses.completed);
-	const newItem = { ...item, status: newStatus };
-	emit('updateItem', newItem);
-};
+const toggleStatus = (task: Task, status?: TaskStatuses) => {
+	const newStatus = status || (isNotStarted(task) ? TaskStatuses.inProgress : TaskStatuses.completed);
+	const updatedTask = { ...task, status: newStatus };
 
-const remove = (id: Task['id']) => emit('removeItem', id);
+	updateTask(updatedTask);
+};
 
 const slideover = useSlideover();
 
@@ -52,9 +52,27 @@ const displayConfirmSlideover = (id: Task['id']) => {
 		title,
 		onSuccess() {
 			slideover.close();
-			remove(id);
+			taskStore.remove(id);
 		},
 	});
+};
+
+// Celebration
+const launchConfetti = () => {
+	confetti({
+		particleCount: 100,
+		spread: 70,
+		origin: { x: 0.5, y: 0.5 },
+	});
+};
+
+const updateTask = (newTask: Task) => {
+	taskStore.updateStatusWithDates(newTask.id, newTask.status);
+
+	if (newTask.status === TaskStatuses.completed) {
+		taskCompletitionSound?.value?.play();
+		launchConfetti();
+	}
 };
 </script>
 
@@ -63,7 +81,7 @@ const displayConfirmSlideover = (id: Task['id']) => {
 	v-for="item in items"
 	:key="item.id"
 	:task="item"
-	class="mb-12"
+	class="mb-6 sm:mb-8"
 	:class="{
 		'shadow-xl z-50': isInProgress(item),
 	}"
@@ -71,7 +89,7 @@ const displayConfirmSlideover = (id: Task['id']) => {
 	@remove="displayConfirmSlideover(item.id)"
 >
 	<div
-		class="flex flex-col items-center mr-6 z-20 cursor-pointer"
+		class="flex flex-col items-center mr-4 sm:mr-6 z-20 cursor-pointer"
 		:class="{ 'motion-safe:animate-pulse': isActionAnimated(item) }"
 		@click="toggleStatus(item)"
 	>
@@ -103,9 +121,10 @@ const displayConfirmSlideover = (id: Task['id']) => {
 			size="sm"
 		/>
 
-		<div class="flex items-center justify-between">
-			<div>
+		<div class="flex flex-nowrap items-center justify-between">
+			<div class="flex flex-initial flex-wrap items-start gap-y-2">
 				<UBadge
+					class="mr-2"
 					variant="soft"
 					:color="UProgressColor(item)"
 				>
@@ -130,19 +149,19 @@ const displayConfirmSlideover = (id: Task['id']) => {
 
 				<template v-if="isNotStarted(item) || isInProgress(item)">
 					<UBadge
-						v-if="item.isUrgent"
+						v-if="item.isImportant"
 						variant="soft"
-						color="rose"
-						class="ml-2"
-						label="Urgent"
+						color="yellow"
+						class="mr-2"
+						label="Important"
 					/>
 
 					<UBadge
-						v-if="item.isImportant"
+						v-if="item.isUrgent"
 						variant="soft"
-						color="amber"
-						class="ml-2"
-						label="Important"
+						color="red"
+						class="mr-2"
+						label="Urgent"
 					/>
 				</template>
 			</div>
@@ -150,9 +169,9 @@ const displayConfirmSlideover = (id: Task['id']) => {
 			<UButton
 				v-if="isInProgress(item)"
 				variant="ghost"
-				color="sky"
+				color="blue"
 				label="Cancel"
-				class="opacity-50 hover:opacity-100 transition-opacity"
+				class="opacity-70 hover:opacity-100 transition-opacity"
 				:padded="false"
 				@click="toggleStatus(item, TaskStatuses.notStarted)"
 			/>

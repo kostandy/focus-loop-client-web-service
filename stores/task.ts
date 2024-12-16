@@ -30,6 +30,14 @@ export const useTaskStore = defineStore('taskStore', {
 		getActiveAndWaitingTasks: ({ tasks }: taskState) =>
 			tasks.filter((task) => task.status === TaskStatuses.notStarted || task.status === TaskStatuses.inProgress),
 		getCompletedTasks: ({ tasks }: taskState) => tasks.filter((task) => task.status === TaskStatuses.completed),
+		getImportantAndUrgentTasks: ({ tasks }: taskState) =>
+			tasks.filter((task) => task.status !== TaskStatuses.completed && task.isImportant && task.isUrgent),
+		getImportantAndNotUrgentTasks: ({ tasks }: taskState) =>
+			tasks.filter((task) => task.status !== TaskStatuses.completed && task.isImportant && !task.isUrgent),
+		getUrgentAndNotImportantTasks: ({ tasks }: taskState) =>
+			tasks.filter((task) => task.status !== TaskStatuses.completed && task.isUrgent && !task.isImportant),
+		getNotImportantAndNotUrgentTasks: ({ tasks }: taskState) =>
+			tasks.filter((task) => task.status !== TaskStatuses.completed && !task.isImportant && !task.isUrgent),
 		getSortedTasks: ({ tasks }: taskState) => {
 			const inProgress: Task[] = [];
 			const notStarted: Task[] = [];
@@ -45,6 +53,8 @@ export const useTaskStore = defineStore('taskStore', {
 					completed.push(task);
 				}
 			});
+
+			// TODO: Sort by urgency and importance as well
 
 			// Sort each category
 			notStarted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());

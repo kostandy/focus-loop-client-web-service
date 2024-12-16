@@ -78,16 +78,16 @@ defineExpose({ state });
 		</UInput>
 	</UFormGroup>
 
-	<div class="my-4">
-		<div class="grid grid-cols-2">
-			<UCheckbox
-				v-model="state.isUrgent"
-				label="⚠️ Urgent"
-			/>
-
+	<div>
+		<div class="grid grid-cols-2 mb-8">
 			<UCheckbox
 				v-model="state.isImportant"
 				label="⭐️ Important"
+			/>
+
+			<UCheckbox
+				v-model="state.isUrgent"
+				label="⚠️ Urgent"
 			/>
 		</div>
 	</div>

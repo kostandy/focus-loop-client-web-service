@@ -39,18 +39,22 @@ const copyWallet = async () => {
 			ring: '',
 			divide: 'divide-y divide-gray-100 dark:divide-gray-800',
 			shadow: 'shadow-none',
+			header: {
+				padding: 'px-6 py-4 sm:p-6',
+			},
+			body: {
+				padding: 'px-6 py-4 sm:p-6',
+			},
 			footer: {
-				base: 'flex flex-col items-center self-end',
+				base: 'absolute bottom-0 w-full flex flex-col items-center gap-y-2',
 			},
 		}"
-		class="px-2"
 	>
 		<template #header>
 			<div class="flex items-center justify-between">
 				<UButton
 					color="gray"
 					variant="link"
-					size="md"
 					icon="i-heroicons-arrow-left-solid"
 					@click="close"
 				/>
@@ -62,7 +66,6 @@ const copyWallet = async () => {
 				<UButton
 					color="gray"
 					variant="link"
-					size="md"
 					icon="i-heroicons-x-mark-20-solid"
 					@click="close"
 				/>
@@ -77,21 +80,11 @@ const copyWallet = async () => {
 		</div>
 
 		<template #footer>
-			<div class="flex items-center justify-center">
-				Made with
-				<UIcon
-					name="i-heroicons-heart"
-					class="mx-1 bg-rose-500"
-				/>
-				for people
-			</div>
-
 			<UButton
 				:to="donationLink"
 				label="Donate using link"
 				trailing-icon="i-heroicons-arrow-top-right-on-square-16-solid"
 				size="md"
-				class="my-2"
 				variant="link"
 				external
 			/>
@@ -103,6 +96,15 @@ const copyWallet = async () => {
 				variant="ghost"
 				@click="copyWallet"
 			/>
+
+			<div class="flex items-center justify-center">
+				Made with
+				<UIcon
+					name="i-heroicons-heart"
+					class="mx-1 bg-rose-500"
+				/>
+				for people by people
+			</div>
 		</template>
 	</UCard>
 </USlideover>

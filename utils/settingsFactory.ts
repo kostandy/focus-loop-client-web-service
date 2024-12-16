@@ -24,7 +24,7 @@ export const settingsMetadata: { [id in SettingsID]: UISetting } = {
 		iconBackgroundColor: 'rose',
 		label: 'Use Eisenhower Matrix',
 		hasToggle: true,
-		disabled: true,
+		disabled: false,
 	}),
 	reduce_motion: createUISetting({
 		icon: 'i-heroicons-play-pause-16-solid',

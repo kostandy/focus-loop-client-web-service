@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import confetti from 'canvas-confetti';
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
 
 import { AUDIO_PATHS } from '~/constants/audioConstants';
 import SettingsSlideover from '~/components/Settings/SettingsSlideover.vue';
 import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 
-import { type Task, TaskStatuses } from '../@types/tasks';
+import type { Task } from '../@types/tasks';
 
 // Store initialization
 const settingsStore = useSettingsStore();
@@ -17,7 +16,6 @@ await callOnce(taskStore.fetch);
 
 // Audio setup
 const { audio: taskCreationSound } = useAudio(AUDIO_PATHS.TASK_CREATION_SUCCESS);
-const { audio: taskCompletitionSound } = useAudio(AUDIO_PATHS.TASK_COMPLETION_SUCCESS);
 
 // Time handling
 const time = ref(Date.now());
@@ -60,49 +58,42 @@ const submitForm = async (newTask: Task) => {
 		closeNewTaskSlideover();
 	}
 };
-
-// Celebration
-const launchConfetti = () => {
-	confetti({
-		particleCount: 100,
-		spread: 70,
-		origin: { x: 0.5, y: 0.5 },
-	});
-};
-
-const updateTask = (newTask: Task) => {
-	taskStore.updateStatusWithDates(newTask.id, newTask.status);
-
-	if (newTask.status === TaskStatuses.completed) {
-		taskCompletitionSound?.value?.play();
-		launchConfetti();
-	}
-};
+const isEisenhowerMatrixEnabled = useSettings('eisenhower_matrix');
+const links = reactive([
+	{ label: 'Do now', to: '#important-urgent-tasks', exact: true, badge: taskStore.getImportantAndUrgentTasks.length },
+	{ label: 'Schedule', to: '#important-not-urgent-tasks', badge: taskStore.getImportantAndNotUrgentTasks.length },
+	{ label: 'Delegate', to: '#urgent-not-important-tasks', badge: taskStore.getUrgentAndNotImportantTasks.length },
+	{
+		label: 'Eliminate',
+		to: '#not-important-not-urgent-tasks',
+		badge: taskStore.getNotImportantAndNotUrgentTasks.length,
+	},
+]);
 </script>
 
 <template>
 <UContainer
 	as="main"
-	class="select-none"
+	class="select-none pb-12"
 	:class="{ 'overflow-hidden': taskStore.hasActiveTask }"
 >
-	<div class="flex items-center justify-between my-6 px-4">
-		<time
-			class="flex text-xl z-40"
-			:datetime="formattedTime"
-		>{{ formattedTime }}</time>
+	<header class="relative mt-4 mb-8 sm:my-6 px-4">
+		<div class="flex items-center justify-between mb-8">
+			<time
+				class="flex text-xl z-40"
+				:datetime="formattedTime"
+			>{{ formattedTime }}</time>
 
-		<UButton
-			icon="i-heroicons-cog-6-tooth"
-			variant="ghost"
-			@click="openSettingsSlideover"
-		/>
-	</div>
+			<UButton
+				icon="i-heroicons-cog-6-tooth"
+				variant="ghost"
+				@click="openSettingsSlideover"
+			/>
+		</div>
 
-	<div class="sticky top-4 mb-8 mx-4 z-20">
 		<UButton
 			label="Add a Task"
-			class="font-bold shadow-lg rounded-xl"
+			class="font-bold shadow-lg rounded-xl mb-4"
 			icon="i-heroicons-plus-solid"
 			color="primary"
 			variant="solid"
@@ -110,14 +101,29 @@ const updateTask = (newTask: Task) => {
 			:disabled="taskStore.isLoading"
 			@click="openNewTaskSlideover"
 		/>
-	</div>
+
+		<UHorizontalNavigation
+			v-if="isEisenhowerMatrixEnabled"
+			:links="links"
+			:ui="{
+				label: '',
+			}"
+			class="sticky top-16 border-b border-gray-800 bg-gray-900 overflow-x-auto touch-pan-y snap-mandatory whitespace-nowrap no-scrollbar"
+		/>
+	</header>
+
+	<Transition>
+		<div
+			v-show="taskStore.hasActiveTask"
+			class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30"
+		/>
+	</Transition>
 
 	<b v-if="taskStore.isLoading">Loading your tasks...</b>
 
 	<div
 		v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError"
-		class="relative mx-4 z-10"
-		:class="{ 'z-30': taskStore.hasActiveTask }"
+		class="mx-4"
 	>
 		<div
 			v-if="!taskStore.tasks.length"
@@ -132,25 +138,82 @@ const updateTask = (newTask: Task) => {
 			/>
 		</div>
 
-		<template v-else>
-			<Transition>
-				<div
-					v-show="taskStore.hasActiveTask"
-					class="fixed top-0 left-0 h-full w-full backdrop-blur-sm bg-transparent/30 z-30"
-				/>
-			</Transition>
+		<template v-else-if="isEisenhowerMatrixEnabled">
+			<section
+				id="important-urgent-tasks"
+				class="mb-8"
+			>
+				<h3 class="text-lg font-medium mb-4">
+					<b>Do now</b> — Important & Urgent
+				</h3>
+				<TaskList :items="taskStore.getImportantAndUrgentTasks" />
+				<p
+					v-if="!taskStore.getImportantAndUrgentTasks.length"
+					class="text-gray-500 text-sm italic text-center"
+				>
+					No urgent and important tasks - you're on top of your priorities!
+				</p>
+			</section>
 
+			<section
+				id="important-not-urgent-tasks"
+				class="mb-8"
+			>
+				<h3 class="text-lg font-medium mb-4">
+					<b>Schedule</b> — Important, not Urgent
+				</h3>
+				<TaskList :items="taskStore.getImportantAndNotUrgentTasks" />
+				<p
+					v-if="!taskStore.getImportantAndNotUrgentTasks.length"
+					class="text-gray-500 text-sm italic text-center"
+				>
+					No tasks to schedule - take time to plan what's important but not time-sensitive!
+				</p>
+			</section>
+
+			<section
+				id="urgent-not-important-tasks"
+				class="mb-8"
+			>
+				<h3 class="text-lg font-medium mb-4">
+					<b>Delegate</b> — Urgent, not Important
+				</h3>
+				<TaskList :items="taskStore.getUrgentAndNotImportantTasks" />
+				<p
+					v-if="!taskStore.getUrgentAndNotImportantTasks.length"
+					class="text-gray-500 text-sm italic text-center"
+				>
+					No tasks to delegate - you're focusing on what's truly important!
+				</p>
+			</section>
+
+			<section
+				id="not-important-not-urgent-tasks"
+				class="mb-8"
+			>
+				<h3 class="text-lg font-medium mb-4">
+					<b>Eliminate</b> — neither Important nor Urgent
+				</h3>
+
+				<TaskList :items="taskStore.getNotImportantAndNotUrgentTasks" />
+
+				<p
+					v-if="!taskStore.getNotImportantAndNotUrgentTasks.length"
+					class="text-gray-500 text-sm italic text-center"
+				>
+					No tasks here - great job prioritizing what matters!
+				</p>
+			</section>
+		</template>
+
+		<template v-else>
 			<template v-if="taskStore.getActiveAndWaitingTasks.length">
 				<UDivider
 					:label="`⏳ Up Next (${taskStore.getActiveAndWaitingTasks.length})`"
 					class="mb-6"
 				/>
 
-				<TaskList
-					:items="taskStore.getActiveAndWaitingTasks"
-					@remove-item="taskStore.remove"
-					@update-item="updateTask"
-				/>
+				<TaskList :items="taskStore.getActiveAndWaitingTasks" />
 			</template>
 
 			<template v-if="taskStore.getCompletedTasks.length">
@@ -159,11 +222,7 @@ const updateTask = (newTask: Task) => {
 					class="mb-6"
 				/>
 
-				<TaskList
-					:items="taskStore.getCompletedTasks"
-					@remove-item="taskStore.remove"
-					@update-item="updateTask"
-				/>
+				<TaskList :items="taskStore.getCompletedTasks" />
 			</template>
 		</template>
 	</div>

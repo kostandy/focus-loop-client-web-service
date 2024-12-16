@@ -43,7 +43,7 @@ defineShortcuts({
 			</div>
 		</template>
 
-		<div class="flex justify-center text-8xl">
+		<div class="flex justify-center text-8xl mb-8">
 			📝
 		</div>
 

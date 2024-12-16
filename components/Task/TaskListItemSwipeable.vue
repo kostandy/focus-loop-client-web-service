@@ -126,7 +126,7 @@ const endSwipe = () => {
 >
 	<div
 		ref="backgroundContainer"
-		class="absolute left-0 right-0 top-0 h-full w-full flex items-center transition will-change-transform transform-gpu translate-x-full duration-500 justify-start z-0 select-none bg-rose-500"
+		class="absolute left-0 right-0 top-0 h-full w-full flex items-center transition translate-x-full duration-500 justify-start z-0 select-none bg-rose-500"
 	>
 		<!-- <TaskListItemAction
 			label="Edit"

@@ -27,8 +27,8 @@ export const useTaskStore = defineStore('taskStore', {
 			(id: Task['id']): Task | undefined =>
 				tasks.find((task) => task.id === id),
 		hasActiveTask: ({ tasks }: taskState) => !!tasks.find((task) => task.status === TaskStatuses.inProgress),
-		getActiveTask: ({ tasks }: taskState) => tasks.find((task) => task.status === TaskStatuses.inProgress),
-		getWaitingTasks: ({ tasks }: taskState) => tasks.filter((task) => task.status === TaskStatuses.notStarted),
+		getActiveAndWaitingTasks: ({ tasks }: taskState) =>
+			tasks.filter((task) => task.status === TaskStatuses.notStarted || task.status === TaskStatuses.inProgress),
 		getCompletedTasks: ({ tasks }: taskState) => tasks.filter((task) => task.status === TaskStatuses.completed),
 		getSortedTasks: ({ tasks }: taskState) => {
 			const inProgress: Task[] = [];

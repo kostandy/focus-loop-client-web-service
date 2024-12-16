@@ -63,9 +63,9 @@ const displayConfirmSlideover = (id: Task['id']) => {
 	v-for="item in items"
 	:key="item.id"
 	:task="item"
-	class="mb-8 scale-95 transition-transform duration-500"
+	class="mb-12"
 	:class="{
-		'scale-100 shadow-xl z-50': isInProgress(item),
+		'shadow-xl z-50': isInProgress(item),
 	}"
 	@swiped="displayConfirmSlideover(item.id)"
 	@remove="displayConfirmSlideover(item.id)"

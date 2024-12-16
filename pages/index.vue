@@ -62,9 +62,7 @@ const launchConfetti = () => {
 const updateTask = (newTask: Task) => {
 	taskStore.updateStatusWithDates(newTask.id, newTask.status);
 
-	if (newTask.status === TaskStatuses.inProgress) {
-		scrollToID();
-	} else if (newTask.status === TaskStatuses.completed) {
+	if (newTask.status === TaskStatuses.completed) {
 		taskCompletitionSound?.value?.play();
 		launchConfetti();
 	}
@@ -85,9 +83,9 @@ const formattedTime = computed(() => {
 	class="select-none"
 	:class="{ 'overflow-hidden': taskStore.hasActiveTask }"
 >
-	<div class="flex items-center justify-between my-4 px-3">
+	<div class="flex items-center justify-between my-6 px-4">
 		<time
-			class="flex text-xl"
+			class="flex text-xl z-40"
 			:datetime="formattedTime"
 		>{{ formattedTime }}</time>
 
@@ -98,12 +96,13 @@ const formattedTime = computed(() => {
 		/>
 	</div>
 
-	<div class="sticky top-4 my-12 mx-4 z-20">
+	<div class="sticky top-4 mb-8 mx-4 z-20">
 		<UButton
 			label="Add a Task"
-			class="font-bold text-white shadow-lg rounded-full"
-			trailing-icon="i-heroicons-plus-solid"
+			class="font-bold shadow-lg rounded-xl"
+			icon="i-heroicons-plus-solid"
 			color="primary"
+			variant="solid"
 			block
 			:disabled="taskStore.isLoading"
 			@click="openNewTaskSlideover"
@@ -114,7 +113,7 @@ const formattedTime = computed(() => {
 
 	<div
 		v-else-if="!taskStore.isLoading && taskStore.tasks && !taskStore.fetchError"
-		class="relative mx-1 z-10"
+		class="relative mx-4 z-10"
 		:class="{ 'z-30': taskStore.hasActiveTask }"
 	>
 		<div
@@ -123,6 +122,7 @@ const formattedTime = computed(() => {
 		>
 			<DotLottieVue
 				style="height: 170px; width: 170px"
+				:speed="0.5"
 				autoplay
 				loop
 				src="/animations/curious-duck.json"
@@ -137,29 +137,14 @@ const formattedTime = computed(() => {
 				/>
 			</Transition>
 
-			<template v-if="!!taskStore.getActiveTask">
+			<template v-if="taskStore.getActiveAndWaitingTasks.length">
 				<UDivider
-					label="��� Focus Now"
-					size="lg"
-					class="my-6 px-4 scroll-mt-4"
+					:label="`⏳ Up Next (${taskStore.getActiveAndWaitingTasks.length})`"
+					class="mb-6"
 				/>
 
 				<TaskList
-					:items="taskStore.getActiveTask ? [taskStore.getActiveTask] : []"
-					@remove-item="taskStore.remove"
-					@update-item="updateTask"
-				/>
-			</template>
-
-			<template v-if="taskStore.getWaitingTasks.length">
-				<UDivider
-					:label="`⏳ Up Next (${taskStore.getWaitingTasks.length})`"
-					size="lg"
-					class="my-6 px-4"
-				/>
-
-				<TaskList
-					:items="taskStore.getWaitingTasks"
+					:items="taskStore.getActiveAndWaitingTasks"
 					@remove-item="taskStore.remove"
 					@update-item="updateTask"
 				/>
@@ -167,11 +152,8 @@ const formattedTime = computed(() => {
 
 			<template v-if="taskStore.getCompletedTasks.length">
 				<UDivider
-					id="divider--completed"
 					:label="`✅ Done & Dusted (${taskStore.getCompletedTasks.length})`"
-					size="lg"
-					class="sticky bottom-0 py-3 my-3 px-4 scroll-mt-24 opacity-75 hover:cursor-pointer hover:opacity-100 motion-safe:transition-opacity z-20"
-					@click="scrollToID('divider--completed')"
+					class="mb-6"
 				/>
 
 				<TaskList

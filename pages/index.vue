@@ -60,13 +60,25 @@ const submitForm = async (newTask: Task) => {
 };
 const isEisenhowerMatrixEnabled = useSettings('eisenhower_matrix');
 const links = reactive([
-	{ label: 'Do now', to: '#important-urgent-tasks', exact: true, badge: taskStore.getImportantAndUrgentTasks.length },
-	{ label: 'Schedule', to: '#important-not-urgent-tasks', badge: taskStore.getImportantAndNotUrgentTasks.length },
-	{ label: 'Delegate', to: '#urgent-not-important-tasks', badge: taskStore.getUrgentAndNotImportantTasks.length },
+	{
+		label: 'Do now',
+		to: '#important-urgent-tasks',
+		badge: computed(() => taskStore.getImportantAndUrgentTasks.length),
+	},
+	{
+		label: 'Schedule',
+		to: '#important-not-urgent-tasks',
+		badge: computed(() => taskStore.getImportantAndNotUrgentTasks.length),
+	},
+	{
+		label: 'Delegate',
+		to: '#urgent-not-important-tasks',
+		badge: computed(() => taskStore.getUrgentAndNotImportantTasks.length),
+	},
 	{
 		label: 'Eliminate',
 		to: '#not-important-not-urgent-tasks',
-		badge: taskStore.getNotImportantAndNotUrgentTasks.length,
+		badge: computed(() => taskStore.getNotImportantAndNotUrgentTasks.length),
 	},
 ]);
 </script>

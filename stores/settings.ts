@@ -34,7 +34,7 @@ export const useSettingsStore = defineStore('settingsStore', {
 			// Simulated fetching (commented out actual API call)
 			// const response = await fetch('/api/settings');
 			// this.settings = await response.json();
-			const data = loadFromLocalStorage(USER_SETTINGS);
+			const data = loadFromLocalStorage(USER_SETTINGS) ?? [];
 
 			if (!data?.length) {
 				this.setDefaultValues();

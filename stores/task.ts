@@ -70,7 +70,7 @@ export const useTaskStore = defineStore('taskStore', {
 			try {
 				this.isLoading = true;
 
-				const storedTasks = loadFromLocalStorage(STORE_NAME);
+				const storedTasks = loadFromLocalStorage(STORE_NAME) ?? [];
 				const parsedTasks: Task[] = storedTasks.map(
 					(task: Task): Task => ({
 						...task,

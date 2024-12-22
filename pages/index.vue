@@ -147,7 +147,6 @@ const links = reactive([
 		>
 			<DotLottieVue
 				style="height: 170px; width: 170px"
-				:speed="0.5"
 				autoplay
 				loop
 				src="/animations/curious-duck.json"

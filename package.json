@@ -16,10 +16,10 @@
 	},
 	"dependencies": {
 		"@lottiefiles/dotlottie-vue": "^0.5.3",
-		"@nuxt/eslint": "^0.7.3",
+		"@nuxt/eslint": "^0.7.4",
 		"@nuxt/ui": "^2.20.0",
 		"@pinia/nuxt": "^0.9.0",
-		"@sentry/nuxt": "^8.46.0",
+		"@sentry/nuxt": "^8.47.0",
 		"canvas-confetti": "^1.9.3",
 		"nuxt": "^3.14.1592",
 		"pinia": "^2.3.0",
@@ -39,6 +39,9 @@
 		"tslint-config-prettier": "^1.18.0",
 		"typescript": "~5.6.3",
 		"vite-plugin-eslint2": "^5.0.3",
-		"vue-tsc": "^2.1.10"
+		"vue-tsc": "^2.2.0"
+	},
+	"overrides": {
+		"@vue/composition-api": "latest"
 	}
 }

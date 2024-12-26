@@ -35,24 +35,26 @@ defineShortcuts({
 		height: 'h-auto max-h-dvh',
 	}"
 >
-	<UCard
-		:ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
-		class="px-2"
-	>
-		<template #header>
-			<div class="flex items-center justify-between">
-				<h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-					New Task
-				</h3>
+	<UContainer>
+		<UCard
+			:ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+			class="px-2"
+		>
+			<template #header>
+				<div class="flex items-center justify-between">
+					<h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+						New Task
+					</h3>
+				</div>
+			</template>
+
+			<div class="flex justify-center text-8xl mb-8">
+				📝
 			</div>
-		</template>
 
-		<div class="flex justify-center text-8xl mb-8">
-			📝
-		</div>
-
-		<TaskForm @submit="submitForm" />
-	</UCard>
+			<TaskForm @submit="submitForm" />
+		</UCard>
+	</UContainer>
 </USlideover>
 </template>
 

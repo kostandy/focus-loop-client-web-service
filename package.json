@@ -20,6 +20,7 @@
 		"@nuxt/ui": "^2.20.0",
 		"@pinia/nuxt": "^0.9.0",
 		"@sentry/nuxt": "^8.47.0",
+		"@tonconnect/ui": "^2.0.9",
 		"canvas-confetti": "^1.9.3",
 		"nuxt": "^3.14.1592",
 		"pinia": "^2.3.0",
@@ -43,5 +44,8 @@
 	},
 	"overrides": {
 		"@vue/composition-api": "latest"
+	},
+	"engines": {
+		"node": ">=20.0.0"
 	}
 }

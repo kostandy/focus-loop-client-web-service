@@ -6,6 +6,7 @@ import SettingsSlideover from '~/components/Settings/SettingsSlideover.vue';
 import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 
 import type { Task } from '../@types/tasks';
+import { THEME, TonConnectUI } from '@tonconnect/ui';
 
 // Store initialization
 const settingsStore = useSettingsStore();
@@ -81,6 +82,38 @@ const links = reactive([
 		badge: computed(() => taskStore.getNotImportantAndNotUrgentTasks.length),
 	},
 ]);
+
+onMounted(() => {
+	const nuxtApp = useNuxtApp();
+	const manifestUrl = `${import.meta.env.DEV ? 'tonsite://focus-loop.ton' : window.location.origin}/tonconnect-manifest.json`;
+
+	const tonConnectUI = new TonConnectUI({
+		manifestUrl,
+		language: 'en',
+		buttonRootId: 'ton-connect-button',
+		uiPreferences: {
+			theme: THEME.DARK,
+			colorsSet: {
+				[THEME.DARK]: {
+					connectButton: {
+						background: '#3b82f6',
+					},
+				},
+			},
+		},
+	});
+
+	const unsubscribeModal = tonConnectUI.onStatusChange((connectedWallet) => {
+		if (connectedWallet) {
+			const walletAddress = connectedWallet.account.address;
+			console.log('Connected to TON wallet:', walletAddress);
+			useToast().add({ id: 'ton-connect-success', title: 'Connected to TON!', color: 'emerald' });
+			unsubscribeModal();
+		}
+	});
+
+	nuxtApp.provide('tonConnectUI', tonConnectUI);
+});
 </script>
 
 <template>
@@ -91,16 +124,24 @@ const links = reactive([
 >
 	<header class="relative mt-4 mb-8 sm:my-6 px-4">
 		<div class="flex items-center justify-between mb-8">
-			<time
-				class="flex text-xl z-40"
-				:datetime="formattedTime"
-			>{{ formattedTime }}</time>
+			<div class="flex basis-4/12 justify-start">
+				<time
+					class="flex-none text-xl z-40"
+					:datetime="formattedTime"
+				>{{ formattedTime }}</time>
+			</div>
 
-			<UButton
-				icon="i-heroicons-cog-6-tooth"
-				variant="ghost"
-				@click="openSettingsSlideover"
-			/>
+			<div class="flex flex-none basis-4/12 justify-center">
+				<div id="ton-connect-button" />
+			</div>
+
+			<div class="flex basis-4/12 justify-end">
+				<UButton
+					icon="i-heroicons-cog-6-tooth"
+					variant="ghost"
+					@click="openSettingsSlideover"
+				/>
+			</div>
 		</div>
 
 		<p class="text-8xl text-center mb-8">

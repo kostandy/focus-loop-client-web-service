@@ -7,6 +7,7 @@
 	"editor.formatOnSave": false,
 	"editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
 	"editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
+	"editor.fontSize": 14,
 	"eslint.useFlatConfig": true,
 	"eslint.validate": ["javascript", "typescript", "vue"],
 	"files.associations": {
@@ -21,10 +22,7 @@
 	"nuxtr.vueFiles.style.alwaysScoped": true,
 	"nuxtr.vueFiles.style.defaultLanguage": "css",
 	"nuxtr.vueFiles.template.defaultLanguage": "html",
-	"tailwindCSS.classAttributes": [
-		"class",
-		"ui"
-	],
+	"tailwindCSS.classAttributes": ["class", "ui"],
 	"tailwindCSS.emmetCompletions": true,
 	"tailwindCSS.validate": true,
 	"tsimporter.filesToExclude": ["node_modules", ".git"],
@@ -37,5 +35,7 @@
 	},
 	"[dockerfile]": {
 		"editor.defaultFormatter": "ms-azuretools.vscode-docker"
-	}
+	},
+	"nuxtr.defaultPackageManager": "NPM",
+	"npm.packageManager": "npm"
 }

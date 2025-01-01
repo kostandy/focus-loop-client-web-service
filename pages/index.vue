@@ -85,7 +85,7 @@ const links = reactive([
 
 onMounted(() => {
 	const nuxtApp = useNuxtApp();
-	const manifestUrl = `${import.meta.env.DEV ? 'tonsite://focus-loop.ton' : window.location.origin}/tonconnect-manifest.json`;
+	const manifestUrl = 'https://focus-hloop-dton.magic.org/tonconnect-manifest.json';
 
 	const tonConnectUI = new TonConnectUI({
 		manifestUrl,
@@ -104,6 +104,9 @@ onMounted(() => {
 	});
 
 	const unsubscribeModal = tonConnectUI.onStatusChange((connectedWallet) => {
+		console.log('Connected wallet:', connectedWallet);
+		console.log('onStatusChange', tonConnectUI.wallet);
+
 		if (connectedWallet) {
 			const walletAddress = connectedWallet.account.address;
 			console.log('Connected to TON wallet:', walletAddress);

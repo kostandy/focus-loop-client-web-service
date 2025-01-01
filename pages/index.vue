@@ -83,6 +83,8 @@ const links = reactive([
 	},
 ]);
 
+const vibrate = () => navigator.vibrate?.([100, 50, 100]);
+
 onMounted(() => {
 	const nuxtApp = useNuxtApp();
 	const manifestUrl = 'https://focus-hloop-dton.magic.org/tonconnect-manifest.json';
@@ -126,28 +128,27 @@ onMounted(() => {
 	:class="{ 'overflow-hidden': taskStore.hasActiveTask }"
 >
 	<header class="relative mt-4 mb-8 sm:my-6 px-4">
-		<div class="flex items-center justify-between mb-8">
-			<div class="flex basis-4/12 justify-start">
-				<time
-					class="flex-none text-xl z-40"
-					:datetime="formattedTime"
-				>{{ formattedTime }}</time>
-			</div>
-
-			<div class="flex flex-none basis-4/12 justify-center">
+		<div class="relative flex items-center justify-between mb-8">
+			<div class="absolute left-0 w-full flex justify-center">
 				<div id="ton-connect-button" />
 			</div>
 
-			<div class="flex basis-4/12 justify-end">
-				<UButton
-					icon="i-heroicons-cog-6-tooth"
-					variant="ghost"
-					@click="openSettingsSlideover"
-				/>
-			</div>
+			<time
+				class="flex-none text-xl z-40"
+				:datetime="formattedTime"
+			>{{ formattedTime }}</time>
+
+			<UButton
+				icon="i-heroicons-cog-6-tooth"
+				variant="ghost"
+				@click="openSettingsSlideover"
+			/>
 		</div>
 
-		<p class="text-8xl text-center mb-8">
+		<p
+			class="text-8xl text-center mb-8"
+			@click="vibrate"
+		>
 			🗃️
 		</p>
 

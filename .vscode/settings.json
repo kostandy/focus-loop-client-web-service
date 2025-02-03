@@ -1,10 +1,11 @@
 {
+	"editor.formatOnSave": true,
 	"editor.formatOnSaveMode": "file",
 	"editor.formatOnType": false,
+	"editor.formatOnPaste": true,
 	"editor.quickSuggestions": {
 		"strings": "on"
 	},
-	"editor.formatOnSave": false,
 	"editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
 	"editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
 	"editor.fontSize": 14,

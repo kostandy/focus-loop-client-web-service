@@ -35,7 +35,7 @@ defineShortcuts({
 		height: 'h-auto max-h-dvh',
 	}"
 >
-	<UContainer>
+	<UContainer class="w-full">
 		<UCard
 			:ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
 			class="px-2"

@@ -6,7 +6,7 @@ export default defineNuxtConfig({
 		preference: 'dark',
 	},
 
-	compatibilityDate: '2024-12-01',
+	compatibilityDate: '2025-02-01',
 
 	devtools: { enabled: process.env.NODE_ENV === 'development' },
 

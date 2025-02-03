@@ -6,7 +6,9 @@ import SettingsSlideover from '~/components/Settings/SettingsSlideover.vue';
 import NewTaskSlideover from '~/components/NewTaskSlideover.vue';
 
 import type { Task } from '../@types/tasks';
-import { THEME, TonConnectUI } from '@tonconnect/ui';
+
+// TODO: Uncomment this code to enable TON Connect integration
+// import { THEME, TonConnectUI } from '@tonconnect/ui';
 
 // Store initialization
 const settingsStore = useSettingsStore();
@@ -85,40 +87,41 @@ const links = reactive([
 
 const vibrate = () => navigator.vibrate?.([100, 50, 100]);
 
-onMounted(() => {
-	const nuxtApp = useNuxtApp();
-	const manifestUrl = 'https://focus-hloop-dton.magic.org/tonconnect-manifest.json';
+// TODO: Uncomment this code to enable TON Connect integration
+// onMounted(() => {
+// 	const nuxtApp = useNuxtApp();
+// 	const manifestUrl = 'https://focus-hloop-dton.magic.org/tonconnect-manifest.json';
 
-	const tonConnectUI = new TonConnectUI({
-		manifestUrl,
-		language: 'en',
-		buttonRootId: 'ton-connect-button',
-		uiPreferences: {
-			theme: THEME.DARK,
-			colorsSet: {
-				[THEME.DARK]: {
-					connectButton: {
-						background: '#3b82f6',
-					},
-				},
-			},
-		},
-	});
+// 	const tonConnectUI = new TonConnectUI({
+// 		manifestUrl,
+// 		language: 'en',
+// 		buttonRootId: 'ton-connect-button',
+// 		uiPreferences: {
+// 			theme: THEME.DARK,
+// 			colorsSet: {
+// 				[THEME.DARK]: {
+// 					connectButton: {
+// 						background: '#3b82f6',
+// 					},
+// 				},
+// 			},
+// 		},
+// 	});
 
-	const unsubscribeModal = tonConnectUI.onStatusChange((connectedWallet) => {
-		console.log('Connected wallet:', connectedWallet);
-		console.log('onStatusChange', tonConnectUI.wallet);
+// 	const unsubscribeModal = tonConnectUI.onStatusChange((connectedWallet) => {
+// 		console.log('Connected wallet:', connectedWallet);
+// 		console.log('onStatusChange', tonConnectUI.wallet);
 
-		if (connectedWallet) {
-			const walletAddress = connectedWallet.account.address;
-			console.log('Connected to TON wallet:', walletAddress);
-			useToast().add({ id: 'ton-connect-success', title: 'Connected to TON!', color: 'emerald' });
-			unsubscribeModal();
-		}
-	});
+// 		if (connectedWallet) {
+// 			const walletAddress = connectedWallet.account.address;
+// 			console.log('Connected to TON wallet:', walletAddress);
+// 			useToast().add({ id: 'ton-connect-success', title: 'Connected to TON!', color: 'emerald' });
+// 			unsubscribeModal();
+// 		}
+// 	});
 
-	nuxtApp.provide('tonConnectUI', tonConnectUI);
-});
+// 	nuxtApp.provide('tonConnectUI', tonConnectUI);
+// });
 </script>
 
 <template>

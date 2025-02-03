@@ -85,8 +85,6 @@ const links = reactive([
 	},
 ]);
 
-const vibrate = () => navigator.vibrate?.([100, 50, 100]);
-
 // TODO: Uncomment this code to enable TON Connect integration
 // onMounted(() => {
 // 	const nuxtApp = useNuxtApp();
@@ -132,9 +130,9 @@ const vibrate = () => navigator.vibrate?.([100, 50, 100]);
 >
 	<header class="relative mt-4 mb-8 sm:my-6 px-4">
 		<div class="relative flex items-center justify-between mb-8">
-			<div class="absolute left-0 w-full flex justify-center">
+			<!-- <div class="absolute left-0 w-full flex justify-center">
 				<div id="ton-connect-button" />
-			</div>
+			</div> -->
 
 			<time
 				class="flex-none text-xl z-40"
@@ -148,12 +146,14 @@ const vibrate = () => navigator.vibrate?.([100, 50, 100]);
 			/>
 		</div>
 
-		<p
-			class="text-8xl text-center mb-8"
-			@click="vibrate"
-		>
-			🗃️
-		</p>
+		<div class="flex justify-center mb-8">
+			<DotLottieVue
+				style="height: 170px; width: 170px"
+				autoplay
+				loop
+				src="/animations/hero-idle.json"
+			/>
+		</div>
 
 		<UButton
 			label="Add a Task"

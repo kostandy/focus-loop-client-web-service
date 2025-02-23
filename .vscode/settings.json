@@ -38,5 +38,9 @@
 		"editor.defaultFormatter": "ms-azuretools.vscode-docker"
 	},
 	"nuxtr.defaultPackageManager": "NPM",
-	"npm.packageManager": "npm"
+	"npm.packageManager": "npm",
+	"notebook.defaultFormatter": "VisualStudioExptTeam.vscodeintellicode",
+	"[typescript]": {
+		"editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+	}
 }
